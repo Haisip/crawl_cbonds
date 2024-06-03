@@ -1,0 +1,2325 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="__RequestVerificationToken" content="CfDJ8PdG7etAbaxFiQmMzHBRJ_3zni8CLrzDfoQTED5HuwFqRMs_YGB-GYu-TnhjOTyssTrlU8Dgei_pY83eZHngCGj6PnSrOIcfr7Ypaw6x_pDrBYzOTIn4xfBEmJ1PtU-14BVAE0zJwmKxMs85OpmYZBU">
+    <title>Trang ch&#x1EE7; - CBIS Portal</title>
+    <link rel="shortcut icon" href="/images/icon_HNX.ico" />
+
+
+
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script src="/lib/jqueryui/jquery-ui.min.js"></script>
+    <script src="/js/jquery.mousewheel.min.js"></script>
+    <link href="/fonts/style.css" rel="stylesheet" />
+    <link href="/lib/font-awsome/css/all.min.css" rel="stylesheet" />
+    <link href="/css/site.min.css" rel="stylesheet" />
+
+
+    <link href="/lib/multipleselect/multiple-select.css" rel="stylesheet" />
+    <script src="/lib/multipleselect/jquery.multiple.select.js"></script>
+
+    <link href="/lib/datatables/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="/lib/datatables/fixedColumns.dataTables.min.css" rel="stylesheet" />
+    <script src="/lib/datatables/jquery.dataTables.min.js"></script>
+    <script src="/lib/datatables/dataTables.fixedColumns.min.js"></script>
+    <script src="/lib/sweetalert/sweetalert2-init.js"></script>
+    <script src="/lib/sweetalert/sweetalert2.js"></script>
+    <script src="/lib/sweetalert/es6-promise.auto.min.js"></script>
+    <link href="/lib/sweetalert/sweetalert2.css" rel="stylesheet" />
+
+    <link href="/lib/notify/animate.min.css" rel="stylesheet" />
+    <link href="/lib/notify/notify.css" rel="stylesheet" />
+    <script src="/lib/notify/bootstrap-notify.min.js"></script>
+    <script src="/lib/notify/bootstrap-notify-init.js"></script>
+
+    <link href="/lib/sweetalert/sweetalert2.css" rel="stylesheet" />
+    <script src="/lib/sweetalert/es6-promise.auto.min.js"></script>
+    <script src="/lib/sweetalert/sweetalert2.js"></script>
+    <script src="/lib/sweetalert/sweetalert2-init.js"></script>
+
+    <link href="/lib/datetimepicker/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <script src="/lib/datetimepicker/jquery.datetimepicker.full.min.js"></script>
+
+    <script src="/js/site.js?v=20240529"></script>
+    <script src="/js/suggestion-search.js?v=20240529"></script>
+
+    <style>
+
+        table th, table td {
+            padding: 8px 5px;
+        }
+
+        .dataTables_length select {
+            width: auto;
+        }
+
+        table.DTFC_Cloned thead, table.DTFC_Cloned tfoot {
+            background-color: #f9f9f9;
+        }
+
+        table.dataTable tbody tr {
+            background-color: #f9f9f9;
+            border-bottom: none;
+        }
+
+        table.dataTable thead th, table.dataTable thead td {
+            padding: 8px 5px;
+            border-bottom: 2px solid #e8e8e8;
+        }
+
+        table.dataTable tbody th, table.dataTable tbody td {
+            padding: 8px 5px;
+            border-bottom: 1px dotted #e8e8e8;
+        }
+
+        table.dataTable.no-footer {
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .dataTables_wrapper.no-footer .dataTables_scrollBody {
+            border-bottom: none;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0.25em 0.5em;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('0' == '1') {
+                //showFormChangePassword();
+                nvsConfirm("Tài khoản đăng nhập lần đầu hoặc mới được reset, yêu cầu đổi mật khẩu", function () {
+                    showFormChangePassword();
+                }, function () {
+                    window.location = '/logout';
+                });
+            }
+            if ('0' == '1') {
+                nvsWarning("Tài khoản sắp hết hạn mật khẩu, bạn có muốn đổi mật khẩu ngay bây giờ?", function () {
+
+                    changePassword();
+                });
+            }
+        })
+        var arr_sb = [];
+        var arr_scond = [1, "", "", 20]; // current_page, sort_column, sort_type, record per page
+        var _SpinLoadingCount = 0;
+        function SpinLoading($create) {
+            try {
+                if ($create) {
+                    _SpinLoadingCount++;
+                }
+                else {
+                    _SpinLoadingCount--;
+                }
+                //
+                if (_SpinLoadingCount > 0) {
+                    if ($('.load-container').length == 0) {
+                        var _loader = '<div class="load-container"><div class="load-background"><div class="loader"></div><p>Loading...</p></div></div>';
+                        $('body').append(_loader);
+                    }
+                }
+                else {
+                    _SpinLoadingCount = 0;
+                    $('.load-container').remove();
+                }
+            } catch (e) {
+
+            }
+        }
+        var _HourGlassCount = 0;
+        function HourGlassProcessing($create) {
+            try {
+                if ($create) {
+                    _HourGlassCount++;
+                }
+                else {
+                    _HourGlassCount--;
+                }
+                //
+                if (_HourGlassCount > 0) {
+                    if ($('.load-container').length == 0) {
+                        var _loader = '<div class="load-container"><div class="load-background"><div class="loading"><div class="hourglass"><div class="hourglass-top"><div class="sand-top"></div></div><div class="hourglass-bottom"><div class="sand-bottom"></div></div></div></div><p>Processing...</p></div></div>';
+                        $('body').append(_loader);
+                    }
+                }
+                else {
+                    _HourGlassCount = 0;
+                    $('.load-container').remove();
+                }
+            } catch (e) {
+
+            }
+        }
+        function SortTable($sortcl, $fncallback) {
+            try {
+                if ($sortcl != undefined && $sortcl != "") {
+                    // --- Change config sort
+                    if (arr_scond.length >= 3) {
+                        if (arr_scond[1].toUpperCase() == $sortcl.toUpperCase()) {
+                            if (arr_scond[2].toUpperCase() == "ASC") {
+                                arr_scond[2] = "DESC";
+                            }
+                            else {
+                                arr_scond[2] = "ASC";
+                            }
+                        }
+                        else {
+                            arr_scond[2] = "ASC";
+                        }
+                        arr_scond[1] = $sortcl;
+                    }
+
+                    // --- Search by cond
+                    if (typeof ($fncallback) == "function") {
+                        $fncallback();
+                    }
+                }
+            } catch (e) {
+                console.log(e.message);
+                return false;
+            }
+        }
+        function ChangeIconSortTable() {
+            try {
+                if (arr_scond.length >= 3 && arr_scond[1] != "") {
+                    // sửa thành chỉ thay đổi cột được chọn
+                    $("th").removeClass("th-sort-asc").removeClass("th-sort-desc");
+
+                    $("th[data-sort='" + arr_scond[1] + "']").removeClass("th-sort-asc").removeClass("th-sort-desc");
+                    if (arr_scond[2] != "") {
+                        $("th[data-sort='" + arr_scond[1] + "']").addClass("th-sort-" + arr_scond[2].toLowerCase());
+                    }
+                }
+            } catch (e) {
+                console.log(e.message);
+                return false;
+            }
+        }
+
+
+
+        function showFormChangePassword() {
+            try {
+                $.ajax({
+                    type: "GET",
+                    url: "/nguoi-su-dung/doi-mat-khau",
+                    data: { id: '0' },
+                    beforeSend: function () {
+                        SpinLoading(true);
+                    },
+                    success: function (data) {
+                        if (data != null) {
+                            if (data.redirectTo) {
+                                window.location.href = data.redirectTo;
+                            } else {
+                                $("#dPopupChangePass").html(data);
+                                ShowPopupDialog("dPopupChangePass", "Đổi mật khẩu");
+                                $('#dPopupChangePass .btn-exit-popup').attr("onclick", "window.location='/logout'");
+                            }
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data.error);
+                    },
+                    complete: function () {
+                        SpinLoading(false);
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        function changePassword() {
+            try {
+                $.ajax({
+                    type: "GET",
+                    url: "/nguoi-su-dung/doi-mat-khau",
+                    data: { id: '0' },
+                    beforeSend: function () {
+                        SpinLoading(true);
+                    },
+                    success: function (data) {
+                        if (data != null) {
+                            if (data.redirectTo) {
+                                window.location.href = data.redirectTo;
+                            } else {
+
+                                $("#dPopupChangePass").html(data);
+                                ShowPopupDialog("dPopupChangePass", "Đổi mật khẩu");
+                            }
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data.error);
+                    },
+                    complete: function () {
+                        SpinLoading(false);
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        function showArticle(articleId) {
+            try {
+                $.ajax({
+                    type: "GET",
+                    url: "/article/chi-tiet",
+                    data: { id: articleId },
+                    beforeSend: function () {
+                        SpinLoading(true);
+                    },
+                    success: function (data) {
+                        if (data != null) {
+                            if (data.redirectTo) {
+                                window.location.href = data.redirectTo;
+                            } else {
+
+                                $("#dPopupArticle").html(data);
+                                ShowPopupDialog("dPopupArticle", "Chi tiết tin tức", {confirmClose: false});
+                            }
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data.error);
+                    },
+                    complete: function () {
+                        SpinLoading(false);
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+        function showArticleHNX(articleId) {
+            try {
+                $.ajax({
+                    type: "GET",
+                    url: "/article/chi-tiet-HNX",
+                    data: { id: articleId },
+                    beforeSend: function () {
+                        SpinLoading(true);
+                    },
+                    success: function (data) {
+                        if (data != null) {
+                            if (data.redirectTo) {
+                                window.location.href = data.redirectTo;
+                            } else {
+
+                                $("#dPopupArticle").html(data);
+                                ShowPopupDialog("dPopupArticle", "Chi tiết tin tức", {confirmClose: false});
+                            }
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data.error);
+                    },
+                    complete: function () {
+                        SpinLoading(false);
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    </script>
+
+</head>
+<body>
+<div class="header-fixed-top">
+    <div class="logo-top">
+        <div class="w-100 clearfix">
+            <div class="head-left clearfix">
+                <div class="header-logo"></div>
+                <div class="navigation-block">
+                    <div class="header-menu">
+                        <ul class="menu clearfix">
+                            <li class="active">
+                                <a href="/">Trang chủ</a>
+                            </li>
+                            <li class="">
+                                <a>Tổ chức phát hành</a>
+                                <ul class="clearfix">
+                                    <li><a href="/to-chuc-phat-hanh/tin-cong-bo">Thông tin công bố</a></li>
+                                    <li><a href="/to-chuc-phat-hanh/danh-sach-doanh-nghiep">Danh sách doanh nghiệp</a></li>
+                                    <li><a href="/to-chuc-phat-hanh/thong-tin-phat-hanh">Thông tin phát hành</a></li>
+                                    <li><a href="/to-chuc-phat-hanh/danh-sach-trai-phieu">Danh sách trái phiếu</a></li>
+
+                                </ul>
+                            </li>
+                            <li class="">
+                                <a href="/to-chuc-luu-ky">Tổ chức lưu ký</a>
+                            </li>
+
+
+                            <li class="">
+                                <a>Thông tin giao dịch</a>
+                                <ul class="clearfix">
+                                    <li><a href="/cbtt-dang-ky-giao-dich">CBTT đăng ký giao dịch</a></li>
+                                    <li><a href="/danh-sach-thanh-vien">Danh sách thành viên</a></li>
+                                    <li><a href="/danh-muc-trai-phieu">Danh mục trái phiếu đăng ký giao dịch</a></li>
+                                    <li><a href="/thong-ke-thi-truong">Thống kê thị trường</a></li>
+                                    <li><a href="/board" target="_blank">Bảng giá trực tuyến</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="" hidden>
+                                <a>Thống kê</a>
+                                <ul>
+                                    <li><a href="/thong-ke/quy-mo-phat-hanh">Quy mô phát hành</a></li>
+                                    <li><a href="/thong-ke/tang-truong-phat-hanh-theo-nam">Tăng trưởng phát hành theo năm</a></li>
+                                    <li><a href="/thong-ke/co-cau-trai-phieu-theo-nam">Cơ cấu trái phiếu theo năm</a></li>
+                                    <li><a href="/thong-ke/bien-dong-lai-suat">Kỳ hạn và biến động lãi suất</a></li>
+                                    <li><a href="/thong-ke/quy-mo-phat-hanh-theo-nganh-nghe">Quy mô phát hành theo ngành nghề</a></li>
+                                    <li><a href="/thong-ke/so-luong-doanh-nghiep-va-quy-mo-phat-hanh">Số lượng doanh nghiệp và quy mô phát hành</a></li>
+                                </ul>
+                            </li>
+                            <li class="">
+                                <a href="/danh-sach-tai-lieu">HDSD</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="header-right">
+                <a id="header-menu-toggle"><i class="fas fa-bars"></i></a>
+
+                <a id="header-user-toggle1" href="/login" class="link-btn" style="border-radius: 30px;">Đăng nhập</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="body-content">
+
+    <div>
+        <marquee style="color:red;">Chuy&#xEA;n trang th&#xF4;ng tin Tr&#xE1;i phi&#x1EBF;u doanh nghi&#x1EC7;p ch&#x1EC9; bao g&#x1ED3;m c&#xE1;c th&#xF4;ng tin c&#x1EE7;a T&#x1ED5; ch&#x1EE9;c ph&#xE1;t h&#xE0;nh v&#xE0; T&#x1ED5; ch&#x1EE9;c l&#x1B0;u k&#xFD; &#x111;&#xE3; &#x111;&#x103;ng k&#xFD; s&#x1EED; d&#x1EE5;ng Chuy&#xEA;n trang v&#x1EDB;i S&#x1EDF; Giao d&#x1ECB;ch Ch&#x1EE9;ng kho&#xE1;n H&#xE0; N&#x1ED9;i</marquee>
+    </div>
+    <script src="/js/highcharts.js"></script>
+    <link href="/css/highcharts.css" rel="stylesheet" />
+    <div class="navigator">
+        <a href="#"><i class="fa fa-home"></i> Trang chủ</a>
+    </div>
+
+    <div class="news-box pd-0">
+
+        <div id="box-release1">
+            <ul class="news-box-tab">
+                <li class="active"><a data-changetabrelease1 data-reftab1="lastestNews">Thông tin công bố</a></li>
+                <li><a data-changetabrelease1 data-reftab1="lastestNewsHNX">Tin từ sở</a></li>
+                <li class="detail-link"><a href="/to-chuc-phat-hanh/tin-cong-bo">Xem chi tiết</a></li>
+            </ul>
+            <div>
+                <div id="lastestNews">
+                    <div class="pd-44">
+                        <ul class="row-22 info-block">
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; t&#x1B0;, 29/05/2024 10:14</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticle('19074');" class="news-link"><b>C&#xF4;ng ty TNHH &#x110;&#x1EA7;u T&#x1B0; &#x110;&#x1ECB;a &#x1ED0;c Nova Saigon Royal CBTT b&#x1EA5;t th&#x1B0;&#x1EDD;ng - v&#x1EC1; vi&#x1EC7;c: quy&#x1EBF;t &#x111;&#x1ECB;nh x&#x1EED; ph&#x1EA1;t vi ph&#x1EA1;m h&#xE0;nh ch&#xED;nh v&#x1EC1; CBTT</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; t&#x1B0;, 29/05/2024 08:26</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticle('19073');" class="news-link"><b>C&#xD4;NG TY C&#x1ED4; PH&#x1EA6;N XI M&#x102;NG C&#xD4;NG THANH B&#xE1;o c&#xE1;o t&#xEC;nh h&#xEC;nh thanh to&#xE1;n g&#x1ED1;c l&#xE3;i N&#x103;m (K&#x1EF3; b&#xE1;o c&#xE1;o t&#x1EEB; 01/01/2023 &#x111;&#x1EBF;n 31/12/2023) n&#x103;m 2023</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; ba, 28/05/2024 16:43</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticle('19070');" class="news-link"><b>C&#xF4;ng b&#x1ED1; th&#xF4;ng tin kh&#xE1;c v&#x1EC1; vi&#x1EC7;c th&#x1EF1;c hi&#x1EC7;n quy&#x1EC1;n b&#xE1;n l&#x1EA1;i v&#xE0; nh&#x1EAD;n l&#xE3;i m&#xE3; tr&#xE1;i phi&#x1EBF;u VKTCH2132001</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; ba, 28/05/2024 14:13</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticle('19065');" class="news-link"><b>CTCP H&#x1B0;ng Th&#x1ECB;nh Land CBTT b&#x1EA5;t th&#x1B0;&#x1EDD;ng - v&#x1EC1; vi&#x1EC7;c: Thanh to&#xE1;n g&#x1ED1;c l&#xE3;i tr&#xE1;i phi&#x1EBF;u b&#x1EB1;ng t&#xE0;i s&#x1EA3;n kh&#xE1;c c&#x1EE7;a m&#xE3; Tr&#xE1;i Phi&#x1EBF;u H79CH2124017</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; ba, 28/05/2024 10:23</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticle('19063');" class="news-link"><b>C&#xF4;ng ty c&#x1ED5; ph&#x1EA7;n Ph&#xE1;t tri&#x1EC3;n t&#x1ED5;ng h&#x1EE3;p H&#x1B0;ng th&#x1ECB;nh Ph&#xE1;t &#x111;&#xED;nh ch&#xED;nh B&#xE1;o c&#xE1;o t&#xE0;i ch&#xED;nh N&#x103;m (K&#x1EF3; b&#xE1;o c&#xE1;o t&#x1EEB; 01/01/2023 &#x111;&#x1EBF;n 31/12/2023) n&#x103;m 2023</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; ba, 28/05/2024 10:20</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticle('19062');" class="news-link"><b>C&#xF4;ng ty c&#x1ED5; ph&#x1EA7;n ph&#x1EA7;n m&#x1EC1;m di&#x1EC7;t virus BKAV CBTT b&#x1EA5;t th&#x1B0;&#x1EDD;ng - v&#x1EC1; vi&#x1EC7;c: C&#xF4;ng b&#x1ED1; th&#xF4;ng tin v&#x1EC1; vi&#x1EC7;c s&#x1EED;a &#x111;&#x1ED5;i, b&#x1ED5; sung C&#xE1;c &#x110;i&#x1EC1;u Ki&#x1EC7;n v&#xE0; &#x110;i&#x1EC1;u Kho&#x1EA3;n Tr&#xE1;i Phi&#x1EBF;u m&#xE3; BKPCB2124001</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; hai, 27/05/2024 14:20</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticle('19047');" class="news-link"><b>C&#xF4;ng ty c&#x1ED5; ph&#x1EA7;n Pacific Partners CBTT b&#x1EA5;t th&#x1B0;&#x1EDD;ng - v&#x1EC1; vi&#x1EC7;c: Quy&#x1EBF;t &#x111;&#x1ECB;nh x&#x1EED; ph&#x1EA1;t quy &#x111;&#x1ECB;nh h&#xE0;nh ch&#xED;nh s&#x1ED1; 226/Q&#x110;-XPHC ng&#xE0;y 21/05/2024 c&#x1EE7;a Thanh tra &#x1EE6;y Ban Ch&#x1EE9;ng Kho&#xE1;n Nh&#xE0; N&#x1B0;&#x1EDB;c.</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; hai, 27/05/2024 11:11</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticle('19051');" class="news-link"><b>C&#xF4;ng ty TNHH &#x110;&#x1EA7;u t&#x1B0; v&#xE0; Ph&#xE1;t tri&#x1EC3;n &#x111;i&#x1EC7;n m&#x1EB7;t tr&#x1EDD;i KN V&#x1EA1;n Ninh B&#xE1;o c&#xE1;o t&#xEC;nh h&#xEC;nh thanh to&#xE1;n g&#x1ED1;c l&#xE3;i B&#xE1;n ni&#xEA;n (K&#x1EF3; b&#xE1;o c&#xE1;o t&#x1EEB; 01/01/2022 &#x111;&#x1EBF;n 30/06/2022) n&#x103;m 2022</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; hai, 27/05/2024 10:22</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticle('19048');" class="news-link"><b>CTCP &#x110;&#x1EA7;u t&#x1B0; &#x110;&#x1EE9;c Trung &#x111;&#xED;nh ch&#xED;nh B&#xE1;o c&#xE1;o t&#xE0;i ch&#xED;nh N&#x103;m (K&#x1EF3; b&#xE1;o c&#xE1;o t&#x1EEB; 01/01/2023 &#x111;&#x1EBF;n 31/12/2023) n&#x103;m 2023</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; hai, 27/05/2024 10:13</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticle('19046');" class="news-link"><b>C&#xF4;ng ty C&#x1ED5; ph&#x1EA7;n Xu&#x1EA5;t nh&#x1EAD;p kh&#x1EA9;u V&#x1EAD;t t&#x1B0; N&#xF4;ng nghi&#x1EC7;p III B&#xE1;o c&#xE1;o t&#xE0;i ch&#xED;nh B&#xE1;n ni&#xEA;n (K&#x1EF3; b&#xE1;o c&#xE1;o t&#x1EEB; 01/01/2023 &#x111;&#x1EBF;n 30/06/2023) n&#x103;m 2023</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="lastestNewsHNX" class="hidden">
+                    <div class="pd-44">
+                        <ul class="row-22 info-block">
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; n&#x103;m, 21/09/2023 15:01</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticleHNX('241');" class="news-link"><b>Th&#xF4;ng tin v&#x1EC1; c&#xE1;c c&#xE2;u h&#x1ECF;i v&#xE0; tr&#x1EA3; l&#x1EDD;i li&#xEA;n quan &#x111;&#x1EBF;n giao d&#x1ECB;ch v&#xE0; &#x111;&#x103;ng k&#xFD; giao d&#x1ECB;ch t&#x1EA1;i H&#x1ED9;i ngh&#x1ECB; ph&#x1ED5; bi&#x1EBF;n quy &#x111;&#x1ECB;nh v&#x1EC1; &#x111;&#x103;ng k&#xFD;, l&#x1B0;u k&#xFD; v&#xE0; &#x111;&#x103;ng k&#xFD; giao d&#x1ECB;ch ng&#xE0;y 15/09/2023</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; ba, 18/07/2023 17:47</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticleHNX('221');" class="news-link"><b>B&#x1ED9; Quy tr&#xEC;nh giao d&#x1ECB;ch tr&#xE1;i phi&#x1EBF;u doanh nghi&#x1EC7;p ri&#xEA;ng l&#x1EBB; tr&#xEA;n h&#x1EC7; th&#x1ED1;ng giao d&#x1ECB;ch tr&#xE1;i phi&#x1EBF;u doanh nghi&#x1EC7;p c&#x1EE7;a S&#x1EDF; GDCK H&#xE0; N&#x1ED9;i (ban h&#xE0;nh k&#xE8;m theo Quy&#x1EBF;t &#x111;&#x1ECB;nh s&#x1ED1; 786/Q&#x110;-SGDHN ng&#xE0;y 18/7/2023 c&#x1EE7;a T&#x1ED5;ng Gi&#xE1;m &#x111;&#x1ED1;c S&#x1EDF; GDCK H&#xE0; N&#x1ED9;i)</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; ba, 30/05/2023 18:22</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticleHNX('202');" class="news-link"><b>C&#xF4;ng b&#x1ED1; C&#xF4;ng v&#x103;n s&#x1ED1; 5002/BTC-TCNH ng&#xE0;y 17/5/2023 c&#x1EE7;a B&#x1ED9; T&#xE0;i ch&#xED;nh v&#x1EC1; vi&#x1EC7;c &#x111;&#x1EC1; ngh&#x1ECB; c&#xE1;c doanh nghi&#x1EC7;p ph&#xE1;t h&#xE0;nh tr&#xE1;i phi&#x1EBF;u ri&#xEA;ng l&#x1EBB; c&#xF3; tr&#xE1;i phi&#x1EBF;u &#x111;&#xE1;o h&#x1EA1;n trong n&#x103;m 2023 thanh to&#xE1;n &#x111;&#x1EA7;y &#x111;&#x1EE7;, &#x111;&#xFA;ng h&#x1EA1;n n&#x1EE3; l&#xE3;i, g&#x1ED1;c tr&#xE1;i phi&#x1EBF;u.</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; ba, 21/02/2023 17:17</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticleHNX('181');" class="news-link"><b>S&#x1EDF; GDCK Ch&#x1EE9;ng kho&#xE1;n H&#xE0; N&#x1ED9;i th&#xF4;ng b&#xE1;o Danh s&#xE1;ch c&#xE1;c t&#x1ED5; ch&#x1EE9;c ph&#xE1;t h&#xE0;nh c&#xF4;ng b&#x1ED1; th&#xF4;ng tin b&#x1EA5;t th&#x1B0;&#x1EDD;ng v&#xE0; b&#xE1;o c&#xE1;o theo y&#xEA;u c&#x1EA7;u t&#x1EEB; ng&#xE0;y 16/9/2022 &#x111;&#x1EBF;n ng&#xE0;y 31/01/2023 c&#xF3; n&#x1ED9;i dung ch&#x1EAD;m thanh to&#xE1;n g&#x1ED1;c, l&#xE3;i&#xD;&#xA;</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; s&#xE1;u, 03/02/2023 14:57</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticleHNX('161');" class="news-link"><b>S&#x1EDF; GDCK H&#xE0; N&#x1ED9;i th&#xF4;ng b&#xE1;o Danh s&#xE1;ch c&#xE1;c t&#x1ED5; ch&#x1EE9;c ph&#xE1;t h&#xE0;nh b&#xE1;o c&#xE1;o &#x111;&#x1ECB;nh k&#x1EF3; t&#xEC;nh h&#xEC;nh thanh to&#xE1;n g&#x1ED1;c, l&#xE3;i tr&#xE1;i phi&#x1EBF;u 6 th&#xE1;ng &#x111;&#x1EA7;u n&#x103;m 2022 t&#x1EEB; ng&#xE0;y 16/9/2022 &#x111;&#x1EBF;n ng&#xE0;y 31/12/2022 c&#xF3; n&#x1ED9;i dung ch&#x1EAD;m tr&#x1EA3; g&#x1ED1;c, l&#xE3;i </b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; n&#x103;m, 29/12/2022 13:55</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticleHNX('141');" class="news-link"><b>S&#x1EDF; GDCK H&#xE0; N&#x1ED9;i &#x111;&#x103;ng t&#x1EA3;i CV 13257/BTC-TCNH ng&#xE0;y 15.12.2022 c&#x1EE7;a B&#x1ED9; T&#xE0;i Ch&#xED;nh v&#xE0; h&#x1B0;&#x1EDB;ng d&#x1EAB;n c&#x1EE7;a B&#x1ED9; T&#xE0;i Ch&#xED;nh &#x111;&#x1ED1;i v&#x1EDB;i m&#x1EAB;u b&#xE1;o c&#xE1;o tu&#x1EA7;n c&#x1EE7;a c&#xE1;c doanh nghi&#x1EC7;p v&#xE0; t&#x1ED5; ch&#x1EE9;c &#x111;&#x103;ng k&#xFD;, l&#x1B0;u k&#xFD;</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; n&#x103;m, 01/12/2022 13:02</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticleHNX('121');" class="news-link"><b>Th&#xF4;ng b&#xE1;o ti&#x1EBF;p theo v&#x1EC1; vi&#x1EC7;c thanh to&#xE1;n &#x111;&#x1EA7;y &#x111;&#x1EE7;, &#x111;&#xFA;ng h&#x1EA1;n n&#x1EE3; l&#xE3;i, g&#x1ED1;c tr&#xE1;i phi&#x1EBF;u </b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; ba, 25/10/2022 09:15</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticleHNX('102');" class="news-link"><b>Th&#xF4;ng b&#xE1;o v&#x1EC1; vi&#x1EC7;c th&#x1EF1;c hi&#x1EC7;n ch&#x1EBF; &#x111;&#x1ED9; b&#xE1;o c&#xE1;o c&#x1EE7;a &#x111;&#x1EA1;i di&#x1EC7;n ng&#x1B0;&#x1EDD;i s&#x1EDF; h&#x1EEF;u tr&#xE1;i phi&#x1EBF;u theo quy &#x111;&#x1ECB;nh t&#x1EA1;i Ngh&#x1ECB; &#x111;&#x1ECB;nh 65/2022/N&#x110;-CP</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; ba, 04/10/2022 16:51</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticleHNX('81');" class="news-link"><b>Th&#xF4;ng b&#xE1;o v&#x1EC1; vi&#x1EC7;c thanh to&#xE1;n &#x111;&#x1EA7;y &#x111;&#x1EE7;, &#x111;&#xFA;ng h&#x1EA1;n n&#x1EE3; l&#xE3;i, g&#x1ED1;c tr&#xE1;i phi&#x1EBF;u</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="col-pc-6">
+                                <div class="pd-info">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p class="cl-gray">Th&#x1EE9; hai, 19/09/2022 11:07</p>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <p><a href="javascript:showArticleHNX('61');" class="news-link"><b>Ngh&#x1ECB; &#x111;&#x1ECB;nh 65/2022/N&#x110;-CP ng&#xE0;y 16/9/2022 s&#x1EED;a &#x111;&#x1ED5;i, b&#x1ED5; sung m&#x1ED9;t s&#x1ED1; &#x111;i&#x1EC1;u c&#x1EE7;a Ngh&#x1ECB; &#x111;&#x1ECB;nh s&#x1ED1; 153/2020/N&#x110;-CP ng&#xE0;y 31 th&#xE1;ng 12 n&#x103;m 2020 quy &#x111;&#x1ECB;nh v&#x1EC1; ch&#xE0;o b&#xE1;n, giao d&#x1ECB;ch tr&#xE1;i phi&#x1EBF;u doanh nghi&#x1EC7;p ri&#xEA;ng l&#x1EBB; t&#x1EA1;i th&#x1ECB; tr&#x1B0;&#x1EDD;ng trong n&#x1B0;&#x1EDB;c v&#xE0; ch&#xE0;o b&#xE1;n tr&#xE1;i phi&#x1EBF;u doanh nghi&#x1EC7;p ra th&#x1ECB; tr&#x1B0;&#x1EDD;ng qu&#x1ED1;c t&#x1EBF;</b></a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(function () {
+                $("#box-release1 a[data-changetabrelease1]").on('click', function () {
+                    try {
+                        let activetab = $(this).attr("data-reftab1");
+                        //
+                        $(this).closest('li').addClass('active').siblings().removeClass('active');
+                        $('#box-release1 #' + activetab).removeClass('hidden').siblings().addClass('hidden');
+                        $(window).trigger('resize');
+                    } catch (e) {
+                        console.log(e);
+                    }
+                });
+            });
+        </script>
+
+    </div>
+
+    <div class="news-box pd-0">
+
+
+        <div id="box-release">
+            <ul class="news-box-tab">
+                <li class="active"><a data-changetabrelease data-reftab="release-result" data-detail-href="/to-chuc-phat-hanh/ket-qua-phat-hanh">Thông báo về kết quả chào bán</a></li>
+                <li><a data-changetabrelease data-reftab="periodic-result" data-detail-href="/to-chuc-phat-hanh/ket-qua-phat-hanh">Tin định kỳ</a></li>
+                <li><a data-changetabrelease data-reftab="extraordinary-result" data-detail-href="/to-chuc-phat-hanh/ket-qua-phat-hanh">Tin bất thường</a></li>
+                <li><a data-changetabrelease data-reftab="buyback-result" data-detail-href="/to-chuc-phat-hanh/thong-tin-phat-hanh">CBTT trước khi mua lại TP trước hạn</a></li>
+                <li><a data-changetabrelease data-reftab="repurchase-result" data-detail-href="/to-chuc-phat-hanh/thong-tin-phat-hanh">CBTT kết quả mua lại TP trước hạn</a></li>
+                <li><a data-changetabrelease data-reftab="bf-convert-result" data-detail-href="/to-chuc-phat-hanh/thong-tin-phat-hanh">CBTT trước khi hoán đổi trái phiếu</a></li>
+                <li><a data-changetabrelease data-reftab="swap-result" data-detail-href="/to-chuc-phat-hanh/thong-tin-phat-hanh">CBTT kết quả hoán đổi trái phiếu</a></li>
+                <li><a data-changetabrelease data-reftab="right-result" data-detail-href="/to-chuc-phat-hanh/thong-tin-phat-hanh">CBTT kết quả thực hiện quyền của chứng quyền</a></li>
+                <li><a data-changetabrelease data-reftab="convert-result" data-detail-href="/to-chuc-phat-hanh/thong-tin-phat-hanh">CBTT kết quả trái phiếu chuyển đổi thành cổ phiếu</a></li>
+                <li class="detail-link"><a onclick="goDetailRelease()">Xem chi tiết</a></li>
+            </ul>
+
+            <div>
+                <div id="release-result">
+                    <div id="fx-table-container">
+                        <table id="tbReleaseResult">
+                            <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th class="mw-90">Ngày đăng tin</th>
+                                <th class="mw-300">Tên DN</th>
+                                <th class="mw-150">Mã TP</th>
+
+                                <th class="mw-60">Tiền tệ</th>
+                                <th class="mw-60">Kỳ hạn</th>
+                                <th class="mw-80">Ngày phát hành</th>
+                                <th class="mw-80">Ngày đáo hạn</th>
+                                <th class="mw-80">Kỳ hạn còn lại (ngày)</th>
+                                <th class="mw-80">Khối lượng</th>
+                                <th class="mw-80">Mệnh giá</th>
+                                <th class="mw-80">Loại hình trả lãi</th>
+                                <th class="mw-80">Loại lãi suất</th>
+                                <th class="mw-120">Phương thức thanh toán lãi</th>
+                                <th class="mw-80">Mua lại và hoán đổi</th>
+                                <th class="mw-80">Thị trường phát hành</th>
+                                <th class="mw-80">Lãi suất phát hành (%/năm)</th>
+                                <th class="mw-100">Tình trạng</th>
+                                <th class="mw-80">Văn bản đính kèm</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center mw-60">1</td>
+                                <td class="text-center mw-90">29/05/2024</td>
+                                <td class="mw-200" id="colCompanyName">BID - Ng&#xE2;n h&#xE0;ng TMCP &#x110;&#x1EA7;u t&#x1B0; v&#xE0; Ph&#xE1;t tri&#x1EC3;n Vi&#x1EC7;t Nam</td>
+                                <td id="colBondCode" class="mw-150">BIDL2439002</td>
+
+                                <td id="colCurrencyName" class="mw-60">VN&#x110;</td>
+                                <td id="colPeriod" class="mw-60">15 N&#x103;m</td>
+                                <td class="text-center mw-100" id="colReleaseDate">21/05/2024</td>
+                                <td class="text-center mw-100" id="colExpireDate">21/05/2039</td>
+                                <td id="colRemainPeriod" class="mw-100">5470 ngày</td>
+                                <td class="text-right mw-150" id="colQuantity">1,000</td>
+                                <td class="text-right mw-150" id="colParValue">1,000,000,000</td>
+                                <td id="colPaymentType" class="mw-100">Coupon</td>
+                                <td class="mw-100">C&#x1ED1; &#x111;&#x1ECB;nh</td>
+
+                                <td class="mw-120">&#x110;&#x1ECB;nh k&#x1EF3; - Cu&#x1ED1;i k&#x1EF3;</td>
+                                <td id="colRors" class="mw-100">Ho&#xE1;n &#x111;&#x1ED5;i; Mua l&#x1EA1;i</td>
+                                <td class="mw-100"></td>
+                                <td class="mw-100 text-right">6.5</td>
+
+                                <td class="mw-100">
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(7803.0,2)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center mw-60">2</td>
+                                <td class="text-center mw-90">29/05/2024</td>
+                                <td class="mw-200" id="colCompanyName">MBB - NG&#xC2;N H&#xC0;NG TMCP QU&#xC2;N &#x110;&#x1ED8;I</td>
+                                <td id="colBondCode" class="mw-150">MBBL2431011</td>
+
+                                <td id="colCurrencyName" class="mw-60">VN&#x110;</td>
+                                <td id="colPeriod" class="mw-60">7 N&#x103;m</td>
+                                <td class="text-center mw-100" id="colReleaseDate">27/05/2024</td>
+                                <td class="text-center mw-100" id="colExpireDate">27/05/2031</td>
+                                <td id="colRemainPeriod" class="mw-100">2554 ngày</td>
+                                <td class="text-right mw-150" id="colQuantity">200</td>
+                                <td class="text-right mw-150" id="colParValue">1,000,000,000</td>
+                                <td id="colPaymentType" class="mw-100">Coupon</td>
+                                <td class="mw-100">Th&#x1EA3; n&#x1ED5;i</td>
+                                <td class="mw-120">&#x110;&#x1ECB;nh k&#x1EF3; - Cu&#x1ED1;i k&#x1EF3;</td>
+                                <td id="colRors" class="mw-100">Mua l&#x1EA1;i</td>
+                                <td class="mw-100"></td>
+                                <td class="mw-100 text-right">6.18</td>
+
+                                <td class="mw-100">
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(7802.0,2)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center mw-60">3</td>
+                                <td class="text-center mw-90">29/05/2024</td>
+                                <td class="mw-200" id="colCompanyName">MBS - C&#xF4;ng ty C&#x1ED5; ph&#x1EA7;n Ch&#x1EE9;ng kho&#xE1;n MB</td>
+                                <td id="colBondCode" class="mw-150">MBSH2427002</td>
+
+                                <td id="colCurrencyName" class="mw-60">VN&#x110;</td>
+                                <td id="colPeriod" class="mw-60">36 Th&#xE1;ng</td>
+                                <td class="text-center mw-100" id="colReleaseDate">20/05/2024</td>
+                                <td class="text-center mw-100" id="colExpireDate">20/05/2027</td>
+                                <td id="colRemainPeriod" class="mw-100">1086 ngày</td>
+                                <td class="text-right mw-150" id="colQuantity">3,000</td>
+                                <td class="text-right mw-150" id="colParValue">100,000,000</td>
+                                <td id="colPaymentType" class="mw-100">Coupon</td>
+                                <td class="mw-100">K&#x1EBF;t h&#x1EE3;p</td>
+                                <td class="mw-120">&#x110;&#x1ECB;nh k&#x1EF3; - Cu&#x1ED1;i k&#x1EF3;</td>
+                                <td id="colRors" class="mw-100">Mua l&#x1EA1;i</td>
+                                <td class="mw-100"></td>
+                                <td class="mw-100 text-right">6.9</td>
+
+                                <td class="mw-100">
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(7798.0,2)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center mw-60">4</td>
+                                <td class="text-center mw-90">28/05/2024</td>
+                                <td class="mw-200" id="colCompanyName">SBVC - NG&#xC2;N H&#xC0;NG TNHH M&#x1ED8;T TH&#xC0;NH VI&#xCA;N SHINHAN VI&#x1EC6;T NAM</td>
+                                <td id="colBondCode" class="mw-150">SBVCL2427001</td>
+
+                                <td id="colCurrencyName" class="mw-60">VN&#x110;</td>
+                                <td id="colPeriod" class="mw-60">3 N&#x103;m</td>
+                                <td class="text-center mw-100" id="colReleaseDate">27/05/2024</td>
+                                <td class="text-center mw-100" id="colExpireDate">27/05/2027</td>
+                                <td id="colRemainPeriod" class="mw-100">1093 ngày</td>
+                                <td class="text-right mw-150" id="colQuantity">1,000</td>
+                                <td class="text-right mw-150" id="colParValue">1,000,000,000</td>
+                                <td id="colPaymentType" class="mw-100">Coupon</td>
+                                <td class="mw-100">C&#x1ED1; &#x111;&#x1ECB;nh</td>
+                                <td class="mw-120">&#x110;&#x1ECB;nh k&#x1EF3; - Cu&#x1ED1;i k&#x1EF3;</td>
+                                <td id="colRors" class="mw-100">Mua l&#x1EA1;i</td>
+                                <td class="mw-100"></td>
+                                <td class="mw-100 text-right">5.4</td>
+
+                                <td class="mw-100">
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(7801.0,2)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center mw-60">5</td>
+                                <td class="text-center mw-90">27/05/2024</td>
+                                <td class="mw-200" id="colCompanyName">VIC - T&#x1EAC;P &#x110;O&#xC0;N VINGROUP - C&#xD4;NG TY CP</td>
+                                <td id="colBondCode" class="mw-150">VICH2426004</td>
+
+                                <td id="colCurrencyName" class="mw-60">VN&#x110;</td>
+                                <td id="colPeriod" class="mw-60">24 Th&#xE1;ng</td>
+                                <td class="text-center mw-100" id="colReleaseDate">13/05/2024</td>
+                                <td class="text-center mw-100" id="colExpireDate">13/05/2026</td>
+                                <td id="colRemainPeriod" class="mw-100">714 ngày</td>
+                                <td class="text-right mw-150" id="colQuantity">20,000</td>
+                                <td class="text-right mw-150" id="colParValue">100,000,000</td>
+                                <td id="colPaymentType" class="mw-100">Coupon</td>
+                                <td class="mw-100">K&#x1EBF;t h&#x1EE3;p</td>
+                                <td class="mw-120">&#x110;&#x1ECB;nh k&#x1EF3; - Cu&#x1ED1;i k&#x1EF3;</td>
+                                <td id="colRors" class="mw-100">Mua l&#x1EA1;i</td>
+                                <td class="mw-100"></td>
+                                <td class="mw-100 text-right">12.5</td>
+
+                                <td class="mw-100">
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(7797.0,2)"></i></a></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div id="buyback-result" class="hidden">
+                    <div id="fx-table-container">
+                        <table id="tbBuyBackResult">
+                            <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th style="min-width:90px">Ngày đăng tin</th>
+                                <th style="min-width:300px">Tên DN</th>
+
+                                <th style="min-width:120px">Tình trạng</th>
+                                <th style="min-width:200px">Ghi chú</th>
+                                <th style="min-width:80px">Văn bản đính kèm</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td class="text-center">22/05/2024</td>
+                                <td style="max-width: 150px">BVBC - C&#xF4;ng ty C&#x1ED5; ph&#x1EA7;n BVB</td>
+
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(4207.0,25)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">2</td>
+                                <td class="text-center">08/05/2024</td>
+                                <td style="max-width: 150px">VKTC - C&#xD4;NG TY C&#x1ED4; PH&#x1EA6;N &#x110;I&#x1EC6;N M&#x1EB6;T TR&#x1EDC;I VKT - H&#xD2;A AN</td>
+
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(4176.0,25)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">3</td>
+                                <td class="text-center">26/04/2024</td>
+                                <td style="max-width: 150px">IMGC - C&#xD4;NG TY C&#x1ED4; PH&#x1EA6;N &#x110;&#x1EA6;U T&#x1AF; IMG HU&#x1EBE;</td>
+
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(4151.0,25)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">4</td>
+                                <td class="text-center">26/04/2024</td>
+                                <td style="max-width: 150px">IMGC - C&#xD4;NG TY C&#x1ED4; PH&#x1EA6;N &#x110;&#x1EA6;U T&#x1AF; IMG HU&#x1EBE;</td>
+
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(4150.0,25)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">5</td>
+                                <td class="text-center">26/04/2024</td>
+                                <td style="max-width: 150px">IMGC - C&#xD4;NG TY C&#x1ED4; PH&#x1EA6;N &#x110;&#x1EA6;U T&#x1AF; IMG HU&#x1EBE;</td>
+
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(4149.0,25)"></i></a></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div id="repurchase-result" class="hidden">
+                    <div id="fx-table-container">
+                        <table id="tbRepurchaseResult">
+                            <thead>
+
+                            <tr>
+                                <th>STT</th>
+                                <th style="min-width:90px">Ngày đăng tin</th>
+                                <th class="mw-300">Tên DN</th>
+                                <th style="min-width:150px">Mã TP</th>
+                                <th class="mw-60">Tiền tệ</th>
+
+                                <th style="min-width:150px">Mệnh giá</th>
+                                <th style="min-width:60px">Kỳ hạn</th>
+                                <th style="min-width:80px">Ngày phát hành</th>
+                                <th style="min-width:80px">Ngày đáo hạn</th>
+                                <th style="min-width:150px">Giá trị TP phát hành</th>
+                                <th style="min-width:150px">Giá trị TP trước mua lại</th>
+                                <th style="min-width:150px">Giá trị TP mua lại</th>
+                                <th style="min-width:120px">Số lượng TP đã mua lại (trái phiếu)</th>
+                                <th style="min-width:150px">Giá trị TP còn lại sau khi mua lại</th>
+                                <th style="min-width:120px">Số lượng TP còn lại sau khi mua lại (trái phiếu)</th>
+                                <th style="min-width:150px">Ngày thực hiện mua lại</th>
+                                <th style="min-width:120px">Tình trạng</th>
+                                <th style="min-width:200px">Ghi chú</th>
+                                <th style="min-width:80px">Văn bản đính kèm</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td class="text-center">29/05/2024</td>
+                                <td style="max-width: 150px">NAB - Ng&#xE2;n h&#xE0;ng Th&#x1B0;&#x1A1;ng m&#x1EA1;i C&#x1ED5; ph&#x1EA7;n Nam &#xC1;</td>
+                                <td><span><b>NABL2225002</b></span></td>
+                                <td class="mw-100">VN&#xD0;</td>
+
+                                <td class="text-right">1,000,000,000</td>
+                                <td>3 N&#x103;m </td>
+                                <td class="text-center">27/05/2022</td>
+                                <td class="text-center">27/05/2025</td>
+                                <td class="text-right">100,000,000,000</td>
+                                <td class="text-right">100,000,000,000</td>
+                                <td class="text-right">100,000,000,000</td>
+                                <td class="text-right">100</td>
+                                <td class="text-right">0</td>
+                                <td class="text-right">0</td>
+                                <td id="tdNgayToChucMuaLai" class="text-center">27/05/2024</td>
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(10093.0,4)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">2</td>
+                                <td class="text-center">29/05/2024</td>
+                                <td style="max-width: 150px">TPB - Ng&#xE2;n h&#xE0;ng Th&#x1B0;&#x1A1;ng m&#x1EA1;i c&#x1ED5; ph&#x1EA7;n Ti&#xEA;n Phong</td>
+                                <td><span><b>TPBL2225008</b></span></td>
+                                <td class="mw-100">VN&#xD0;</td>
+
+                                <td class="text-right">100,000,000</td>
+                                <td>3 N&#x103;m </td>
+                                <td class="text-center">26/05/2022</td>
+                                <td class="text-center">26/05/2025</td>
+                                <td class="text-right">999,000,000,000</td>
+                                <td class="text-right">999,000,000,000</td>
+                                <td class="text-right">999,000,000,000</td>
+                                <td class="text-right">9,990</td>
+                                <td class="text-right">0</td>
+                                <td class="text-right">0</td>
+                                <td id="tdNgayToChucMuaLai" class="text-center">27/05/2024</td>
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(10095.0,4)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">3</td>
+                                <td class="text-center">29/05/2024</td>
+                                <td style="max-width: 150px">TPB - Ng&#xE2;n h&#xE0;ng Th&#x1B0;&#x1A1;ng m&#x1EA1;i c&#x1ED5; ph&#x1EA7;n Ti&#xEA;n Phong</td>
+                                <td><span><b>TPBL2225006</b></span></td>
+                                <td class="mw-100">VN&#xD0;</td>
+
+                                <td class="text-right">100,000,000</td>
+                                <td>3 N&#x103;m </td>
+                                <td class="text-center">25/05/2022</td>
+                                <td class="text-center">25/05/2025</td>
+                                <td class="text-right">500,000,000,000</td>
+                                <td class="text-right">500,000,000,000</td>
+                                <td class="text-right">500,000,000,000</td>
+                                <td class="text-right">5,000</td>
+                                <td class="text-right">0</td>
+                                <td class="text-right">0</td>
+                                <td id="tdNgayToChucMuaLai" class="text-center">27/05/2024</td>
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(10094.0,4)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">4</td>
+                                <td class="text-center">29/05/2024</td>
+                                <td style="max-width: 150px">BCMC - CTCP Ph&#xE1;t tri&#x1EC3;n h&#x1EA1; t&#x1EA7;ng k&#x1EF9; thu&#x1EAD;t Becamex-B&#xEC;nh Ph&#x1B0;&#x1EDB;c</td>
+                                <td><span><b>BECAMEX-BINHPHUOC</b></span></td>
+                                <td class="mw-100">VN&#xD0;</td>
+
+                                <td class="text-right">100,000,000</td>
+                                <td>5 N&#x103;m </td>
+                                <td class="text-center">18/05/2019</td>
+                                <td class="text-center">18/05/2024</td>
+                                <td class="text-right">500,000,000,000</td>
+                                <td class="text-right">100,000,000,000</td>
+                                <td class="text-right">100,000,000,000</td>
+                                <td class="text-right">1,000</td>
+                                <td class="text-right">0</td>
+                                <td class="text-right">0</td>
+                                <td id="tdNgayToChucMuaLai" class="text-center">18/05/2024</td>
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(10091.0,4)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">5</td>
+                                <td class="text-center">29/05/2024</td>
+                                <td style="max-width: 150px">VDS - CTCP Ch&#x1EE9;ng kho&#xE1;n R&#x1ED3;ng Vi&#x1EC7;t</td>
+                                <td><span><b>VDSH2324002</b></span></td>
+                                <td class="mw-100">VN&#xD0;</td>
+
+                                <td class="text-right">100,000,000</td>
+                                <td>1 N&#x103;m </td>
+                                <td class="text-center">20/06/2023</td>
+                                <td class="text-center">20/06/2024</td>
+                                <td class="text-right">698,600,000,000</td>
+                                <td class="text-right">698,600,000,000</td>
+                                <td class="text-right">283,100,000,000</td>
+                                <td class="text-right">2,831</td>
+                                <td class="text-right">415,500,000,000</td>
+                                <td class="text-right">4,155</td>
+                                <td id="tdNgayToChucMuaLai" class="text-center">16/05/2024</td>
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(10082.0,4)"></i></a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="swap-result" class="hidden">
+                    <div id="fx-table-container">
+                        <table id="tbSwapResult">
+                            <thead>
+                            <tr>
+                                <th rowspan="2">STT</th>
+                                <th rowspan="2" style="min-width:100px">Ngày đăng tin</th>
+                                <th rowspan="2" class="mw-300">Tên DN</th>
+                                <th rowspan="2" class="mw-60">Tiền tệ</th>
+                                <th rowspan="2" style="min-width:160px">Ngày thực hiện hoán đổi</th>
+                                <th colspan="4">Trái phiếu bị hoán đổi</th>
+                                <th colspan="4">Trái phiếu được hoán đổi</th>
+                                <th rowspan="2" style="min-width:80px">Tình trạng</th>
+                                <th rowspan="2" style="min-width:200px">Ghi chú</th>
+                                <th rowspan="2" style="min-width:80px">Văn bản đính kèm</th>
+                            </tr>
+                            <tr>
+                                <th style="min-width:120px">Mã trái phiếu</th>
+                                <th style="min-width:80px">Kỳ hạn</th>
+                                <th style="min-width:80px">Ngày phát hành</th>
+                                <th style="min-width:120px">Số lượng TP bị hoán đổi (trái phiếu)</th>
+                                <th style="min-width:120px">Mã trái phiếu</th>
+                                <th style="min-width:60px">Kỳ hạn</th>
+                                <th style="min-width:80px">Ngày phát hành</th>
+                                <th style="min-width:120px">Số lượng TP được hoán đổi (trái phiếu)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td colspan="17">
+                                    <div class="text-center notfound-data">
+                                        <img src="/images/notfounddata.png" alt="Ảnh" />
+                                        <div>Không tìm thấy dữ liệu tìm kiếm</div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="right-result" class="hidden">
+                    <div id="fx-table-container">
+                        <table id="tbRightResult">
+                            <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th class="mw-120">Ngày đăng tin</th>
+
+                                <th class="mw-300">Tên DN</th>
+                                <th class="mw-150">Mã TP</th>
+                                <th class="mw-70">Tiền tệ</th>
+                                <th class="mw-150">Mệnh giá</th>
+                                <th class="mw-100">Kỳ hạn</th>
+                                <th class="mw-100">Kỳ hạn còn lại</th>
+                                <th class="mw-100">Ngày phát hành</th>
+                                <th class="mw-150" data-sort="Bond_Value">Giá trị TP phát hành </th>
+
+                                <th class="mw-120">Ngày chốt danh sách trái chủ</th>
+                                <th class="mw-100">Ngày thực hiện quyền</th>
+
+
+                                <th class="mw-120">Số lượng TP đã THQ mua (trái phiếu)</th>
+                                <th class="mw-150" data-sort="Trading_Value">Giá trị TP đã thực hiện quyền mua</th>
+                                <th style="min-width:120px">Số lượng chứng quyền đã thực hiện (trái phiếu)</th>
+                                <th style="min-width:120px">Số lượng chứng quyền đã phát hành (trái phiếu)</th>
+
+                                <th class="mw-100">Tình trạng</th>
+                                <th class="mw-200">Ghi chú</th>
+                                <th class="mw-80">Văn bản đính kèm</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td class="text-center">17/02/2022</td>
+                                <td style="max-width: 150px">HDG -  C&#xF4;ng ty C&#x1ED5; ph&#x1EA7;n T&#x1EAD;p &#x111;o&#xE0;n H&#xE0; &#x110;&#xF4;</td>
+                                <td>HDG.BOND.2019.03</td>
+
+                                <td class="">VN&#xD0;</td>
+                                <td class="text-right">1,000,000,000</td>
+                                <td>36 Th&#xE1;ng </td>
+                                <td>0 Ng&#xE0;y </td>
+                                <td class="text-center">11/12/2019</td>
+                                <td class="text-right">500,000,000,000</td>
+
+                                <td class="text-center">15/11/2021</td>
+                                <td class="text-center">09/02/2022</td>
+
+
+                                <td class="text-right">200</td>
+                                <td class="text-right">200,000,000,000</td>
+                                <td class="text-right">200</td>
+                                <td class="text-right">200</td>
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(921.0,7)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">2</td>
+                                <td class="text-center">20/07/2021</td>
+                                <td style="max-width: 150px">HDG -  C&#xF4;ng ty C&#x1ED5; ph&#x1EA7;n T&#x1EAD;p &#x111;o&#xE0;n H&#xE0; &#x110;&#xF4;</td>
+                                <td>HDG.BOND.2019.03</td>
+
+                                <td class="">VN&#xD0;</td>
+                                <td class="text-right">1,000,000,000</td>
+                                <td>36 Th&#xE1;ng </td>
+                                <td>0 Ng&#xE0;y </td>
+                                <td class="text-center">11/12/2019</td>
+                                <td class="text-right">500,000,000,000</td>
+
+                                <td class="text-center">13/05/2021</td>
+                                <td class="text-center">05/07/2021</td>
+
+
+                                <td class="text-right">300</td>
+                                <td class="text-right">300,000,000,000</td>
+                                <td class="text-right">300</td>
+                                <td class="text-right">500</td>
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(901.0,7)"></i></a></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div id="bf-convert-result" class="hidden">
+                    <div id="fx-table-container">
+                        <table id="tbBeforeConvertResult">
+                            <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th style="min-width:90px">Ngày đăng tin</th>
+                                <th style="min-width:300px">Tên DN</th>
+
+                                <th style="min-width:120px">Tình trạng</th>
+                                <th style="min-width:200px">Ghi chú</th>
+                                <th style="min-width:80px">Văn bản đính kèm</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td colspan="17">
+                                    <div class="text-center notfound-data">
+                                        <img src="/images/notfounddata.png" alt="Ảnh" />
+                                        <div>Không tìm thấy dữ liệu tìm kiếm</div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div id="convert-result" class="hidden">
+                    <div id="fx-table-container">
+                        <table id="tbConvertResult">
+                            <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th style="min-width:90px">Ngày đăng tin</th>
+                                <th class="mw-300">Tên DN</th>
+                                <th style="min-width:150px">Mã TP được chuyển đổi</th>
+                                <th style="min-width:60px">Tiền tệ</th>
+                                <th style="min-width:150px">Mệnh giá</th>
+                                <th style="min-width:90px">Kỳ hạn</th>
+                                <th style="min-width:90px">Ngày phát hành</th>
+                                <th style="min-width:150px">Giá trị TP phát hành</th>
+                                <th style="min-width:90px">Ngày thực hiện chuyển đổi</th>
+                                <th style="min-width:90px">Ngày chốt DS trái chủ</th>
+                                <th style="min-width:90px">Thời gian lưu ký, GD TP chuyển đổi</th>
+
+                                <th data-sort="Value_Conver" style="min-width:150px">Giá trị TP được chuyển đổi</th>
+                                <th style="min-width:150px">Số lượng TP được chuyển đổi (trái phiếu)</th>
+                                <th data-sort="Value_After" style="min-width:150px">Giá trị TP sau chuyển đổi</th>
+                                <th style="min-width:150px">Số lượng TP sau chuyển đổi (trái phiếu)</th>
+                                <th style="min-width:100px">Tình trạng</th>
+                                <th style="min-width:200px">Ghi chú</th>
+                                <th style="min-width:80px">Văn bản đính kèm</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td class="text-center">28/06/2023</td>
+                                <td>PVIC - C&#xF4;ng ty C&#x1ED5; ph&#x1EA7;n &#x110;&#x1EA7;u t&#x1B0; Phan V&#x169;</td>
+                                <td>PVICLH1823001</td>
+                                <td>VNĐ</td>
+                                <td class="text-right">1,000,000,000</td>
+                                <td>5 N&#x103;m </td>
+                                <td class="text-center">26/12/2018</td>
+                                <td class="text-right">330,000,000,000</td>
+                                <td class="text-center">26/06/2023</td>
+                                <td class="text-center">25/05/2023</td>
+                                <td class="text-center"></td>
+                                <td class="text-right">330,000,000,000</td>
+                                <td class="text-right">330</td>
+                                <td class="text-right">0</td>
+                                <td class="text-right">0</td>
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(526.0,6)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">2</td>
+                                <td class="text-center">28/03/2023</td>
+                                <td>ADS - C&#xD4;NG TY C&#x1ED4; PH&#x1EA6;N DAMSAN</td>
+                                <td>ADSH2224001</td>
+                                <td>VNĐ</td>
+                                <td class="text-right">1,000,000</td>
+                                <td>2 N&#x103;m </td>
+                                <td class="text-center">21/03/2022</td>
+                                <td class="text-right">100,000,000,000</td>
+                                <td class="text-center">21/03/2023</td>
+                                <td class="text-center">20/03/2023</td>
+                                <td class="text-center"></td>
+                                <td class="text-right">70,000,000,000</td>
+                                <td class="text-right">70,000</td>
+                                <td class="text-right">30,000,000,000</td>
+                                <td class="text-right">30,000</td>
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(521.0,6)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">3</td>
+                                <td class="text-center">16/02/2023</td>
+                                <td>HAX - C&#xD4;NG TY C&#x1ED4; PH&#x1EA6;N D&#x1ECA;CH V&#x1EE4; &#xD4; T&#xD4; H&#xC0;NG XANH</td>
+                                <td>HAXH2223001</td>
+                                <td>VNĐ</td>
+                                <td class="text-right">100,000</td>
+                                <td>18 Th&#xE1;ng </td>
+                                <td class="text-center">10/02/2022</td>
+                                <td class="text-right">180,000,000,000</td>
+                                <td class="text-center">13/02/2023</td>
+                                <td class="text-center">13/02/2023</td>
+                                <td class="text-center">13/02/2023</td>
+                                <td class="text-right">180,000,000,000</td>
+                                <td class="text-right">1,800,000</td>
+                                <td class="text-right">0</td>
+                                <td class="text-right">0</td>
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(511.0,6)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">4</td>
+                                <td class="text-center">25/11/2022</td>
+                                <td>NVL - CTCP T&#x1EAD;p &#x111;o&#xE0;n &#x110;&#x1EA7;u t&#x1B0; &#x110;&#x1ECB;a &#x1ED1;c Nova</td>
+                                <td>NVLD2126009</td>
+                                <td>USD</td>
+                                <td class="text-right">200,000</td>
+                                <td>5 N&#x103;m </td>
+                                <td class="text-center">16/07/2021</td>
+                                <td class="text-right">300,000,000</td>
+                                <td class="text-center">22/11/2022</td>
+                                <td class="text-center">22/11/2022</td>
+                                <td class="text-center">01/12/2022</td>
+                                <td class="text-right">1,000,000</td>
+                                <td class="text-right">5</td>
+                                <td class="text-right">298,600,000</td>
+                                <td class="text-right">1,493</td>
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(506.0,6)"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">5</td>
+                                <td class="text-center">10/11/2022</td>
+                                <td>IBC - CTCP &#x110;&#x1EA6;U T&#x1AF; APAX HOLDINGS</td>
+                                <td>APAXHOLDINGS_BOND01</td>
+                                <td>VNĐ</td>
+                                <td class="text-right">1,000,000,000</td>
+                                <td>5 N&#x103;m </td>
+                                <td class="text-center">11/06/2018</td>
+                                <td class="text-right">207,000,000,000</td>
+                                <td class="text-center">02/10/2019</td>
+                                <td class="text-center">27/09/2019</td>
+                                <td class="text-center"></td>
+                                <td class="text-right">103,000,000,000</td>
+                                <td class="text-right">103</td>
+                                <td class="text-right">73,000,000,000</td>
+                                <td class="text-right">73</td>
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td></td>
+                                <td class="text-center"><a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex(501.0,6)"></i></a></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="periodic-result" class="hidden">
+                    <div id="fx-table-container">
+                        <table id="tbPeriodicResult">
+                            <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th style="min-width:90px">Ngày đăng tin</th>
+                                <th class="mw-300">Tên DN</th>
+                                <th style="min-width:150px">Mã TP liên quan</th>
+                                <th style="min-width: 300px">Tiêu đề tin</th>
+                                <th style="min-width:100px">Tình trạng</th>
+                                <th style="min-width:200px">Ghi chú</th>
+                                <th style="min-width:80px">Văn bản đính kèm</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td class="text-center">29/05/2024</td>
+                                <td>CTCC - C&#xD4;NG TY C&#x1ED4; PH&#x1EA6;N XI M&#x102;NG C&#xD4;NG THANH</td>
+                                <td></td>
+                                <td>C&#xD4;NG TY C&#x1ED4; PH&#x1EA6;N XI M&#x102;NG C&#xD4;NG THANH B&#xE1;o c&#xE1;o t&#xEC;nh h&#xEC;nh thanh to&#xE1;n g&#x1ED1;c l&#xE3;i N&#x103;m (K&#x1EF3; b&#xE1;o c&#xE1;o t&#x1EEB; 01/01/2023 &#x111;&#x1EBF;n 31/12/2023) n&#x103;m 2023</td>
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+
+                                </td>
+                                <td></td>
+                                <td class="text-center">
+
+                                    <a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex('19073.0', '3', '')"></i></a>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-center">2</td>
+                                <td class="text-center">28/05/2024</td>
+                                <td>HTPC - C&#xF4;ng ty c&#x1ED5; ph&#x1EA7;n Ph&#xE1;t tri&#x1EC3;n t&#x1ED5;ng h&#x1EE3;p H&#x1B0;ng th&#x1ECB;nh Ph&#xE1;t</td>
+                                <td></td>
+                                <td>C&#xF4;ng ty c&#x1ED5; ph&#x1EA7;n Ph&#xE1;t tri&#x1EC3;n t&#x1ED5;ng h&#x1EE3;p H&#x1B0;ng th&#x1ECB;nh Ph&#xE1;t &#x111;&#xED;nh ch&#xED;nh B&#xE1;o c&#xE1;o t&#xE0;i ch&#xED;nh N&#x103;m (K&#x1EF3; b&#xE1;o c&#xE1;o t&#x1EEB; 01/01/2023 &#x111;&#x1EBF;n 31/12/2023) n&#x103;m 2023</td>
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                    <a class="func-link" href="javascript:;" onclick="showViewDescriptionFile('11564.0', '17', 'THÔNG TIN ĐÍNH CHÍNH','07/2024/CBTT','27/05/2024','C&#x1EAD;p nh&#x1EAD;t l&#x1EA1;i s&#x1ED1; li&#x1EC7;u t&#xE0;i ch&#xED;nh sau khi ki&#x1EC3;m to&#xE1;n');"><i class="fas fa-comment">&nbsp;</i></a>
+
+                                </td>
+                                <td></td>
+                                <td class="text-center">
+
+                                    <a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex('19063.0', '3', '')"></i></a>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-center">3</td>
+                                <td class="text-center">27/05/2024</td>
+                                <td>KNVC - C&#xF4;ng ty TNHH &#x110;&#x1EA7;u t&#x1B0; v&#xE0; Ph&#xE1;t tri&#x1EC3;n &#x111;i&#x1EC7;n m&#x1EB7;t tr&#x1EDD;i KN V&#x1EA1;n Ninh</td>
+                                <td></td>
+                                <td>C&#xF4;ng ty TNHH &#x110;&#x1EA7;u t&#x1B0; v&#xE0; Ph&#xE1;t tri&#x1EC3;n &#x111;i&#x1EC7;n m&#x1EB7;t tr&#x1EDD;i KN V&#x1EA1;n Ninh B&#xE1;o c&#xE1;o t&#xEC;nh h&#xEC;nh thanh to&#xE1;n g&#x1ED1;c l&#xE3;i B&#xE1;n ni&#xEA;n (K&#x1EF3; b&#xE1;o c&#xE1;o t&#x1EEB; 01/01/2022 &#x111;&#x1EBF;n 30/06/2022) n&#x103;m 2022</td>
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+
+                                </td>
+                                <td></td>
+                                <td class="text-center">
+
+                                    <a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex('19051.0', '3', '')"></i></a>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-center">4</td>
+                                <td class="text-center">27/05/2024</td>
+                                <td>DTI - CTCP &#x110;&#x1EA7;u t&#x1B0; &#x110;&#x1EE9;c Trung</td>
+                                <td></td>
+                                <td>CTCP &#x110;&#x1EA7;u t&#x1B0; &#x110;&#x1EE9;c Trung &#x111;&#xED;nh ch&#xED;nh B&#xE1;o c&#xE1;o t&#xE0;i ch&#xED;nh N&#x103;m (K&#x1EF3; b&#xE1;o c&#xE1;o t&#x1EEB; 01/01/2023 &#x111;&#x1EBF;n 31/12/2023) n&#x103;m 2023</td>
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                    <a class="func-link" href="javascript:;" onclick="showViewDescriptionFile('11555.0', '17', 'THÔNG TIN ĐÍNH CHÍNH','20/2024/CV-DTI','16/05/2024','C&#x1EAD;p nh&#x1EAD;t l&#x1EA1;i th&#xF4;ng tin sau khi c&#xF3; k&#x1EBF;t qu&#x1EA3; ki&#x1EC3;m to&#xE1;n b&#xE1;o c&#xE1;o t&#xE0;i ch&#xED;nh n&#x103;m 2023');"><i class="fas fa-comment">&nbsp;</i></a>
+
+                                </td>
+                                <td></td>
+                                <td class="text-center">
+
+                                    <a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex('19048.0', '3', '')"></i></a>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-center">5</td>
+                                <td class="text-center">27/05/2024</td>
+                                <td>VT3C - C&#xF4;ng ty C&#x1ED5; ph&#x1EA7;n Xu&#x1EA5;t nh&#x1EAD;p kh&#x1EA9;u V&#x1EAD;t t&#x1B0; N&#xF4;ng nghi&#x1EC7;p III</td>
+                                <td></td>
+                                <td>C&#xF4;ng ty C&#x1ED5; ph&#x1EA7;n Xu&#x1EA5;t nh&#x1EAD;p kh&#x1EA9;u V&#x1EAD;t t&#x1B0; N&#xF4;ng nghi&#x1EC7;p III B&#xE1;o c&#xE1;o t&#xE0;i ch&#xED;nh B&#xE1;n ni&#xEA;n (K&#x1EF3; b&#xE1;o c&#xE1;o t&#x1EEB; 01/01/2023 &#x111;&#x1EBF;n 30/06/2023) n&#x103;m 2023</td>
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+
+                                </td>
+                                <td></td>
+                                <td class="text-center">
+
+                                    <a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex('19046.0', '3', '')"></i></a>
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="extraordinary-result" class="hidden">
+                    <div id="fx-table-container">
+                        <table id="tbExtraordinaryResult">
+                            <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th style="min-width:90px">Ngày đăng tin</th>
+                                <th class="mw-300">Tên DN</th>
+                                <th style="min-width:150px">Mã TP liên quan</th>
+                                <th style="min-width:300px">Tiêu đề tin</th>
+                                <th style="min-width:100px">Tình trạng</th>
+                                <th style="min-width:200px">Ghi chú</th>
+                                <th style="min-width:80px">Văn bản đính kèm</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td class="text-center">29/05/2024</td>
+                                <td>NSRC - C&#xF4;ng ty TNHH &#x110;&#x1EA7;u T&#x1B0; &#x110;&#x1ECB;a &#x1ED0;c Nova Saigon Royal</td>
+                                <td>NSRCH2223001</td>
+                                <td>C&#xF4;ng ty TNHH &#x110;&#x1EA7;u T&#x1B0; &#x110;&#x1ECB;a &#x1ED0;c Nova Saigon Royal CBTT b&#x1EA5;t th&#x1B0;&#x1EDD;ng - v&#x1EC1; vi&#x1EC7;c: quy&#x1EBF;t &#x111;&#x1ECB;nh x&#x1EED; ph&#x1EA1;t vi ph&#x1EA1;m h&#xE0;nh ch&#xED;nh v&#x1EC1; CBTT</td>
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td></td>
+                                <td class="text-center">
+
+                                    <a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex('19074.0', '3', '')"></i></a>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-center">2</td>
+                                <td class="text-center">28/05/2024</td>
+                                <td>H79C - CTCP H&#x1B0;ng Th&#x1ECB;nh Land</td>
+                                <td>H79CH2124017</td>
+                                <td>CTCP H&#x1B0;ng Th&#x1ECB;nh Land CBTT b&#x1EA5;t th&#x1B0;&#x1EDD;ng - v&#x1EC1; vi&#x1EC7;c: Thanh to&#xE1;n g&#x1ED1;c l&#xE3;i tr&#xE1;i phi&#x1EBF;u b&#x1EB1;ng t&#xE0;i s&#x1EA3;n kh&#xE1;c c&#x1EE7;a m&#xE3; Tr&#xE1;i Phi&#x1EBF;u H79CH2124017</td>
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td></td>
+                                <td class="text-center">
+
+                                    <a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex('19065.0', '3', '')"></i></a>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-center">3</td>
+                                <td class="text-center">28/05/2024</td>
+                                <td>BKPC - C&#xF4;ng ty c&#x1ED5; ph&#x1EA7;n ph&#x1EA7;n m&#x1EC1;m di&#x1EC7;t virus BKAV</td>
+                                <td>BKPCB2124001</td>
+                                <td>C&#xF4;ng ty c&#x1ED5; ph&#x1EA7;n ph&#x1EA7;n m&#x1EC1;m di&#x1EC7;t virus BKAV CBTT b&#x1EA5;t th&#x1B0;&#x1EDD;ng - v&#x1EC1; vi&#x1EC7;c: C&#xF4;ng b&#x1ED1; th&#xF4;ng tin v&#x1EC1; vi&#x1EC7;c s&#x1EED;a &#x111;&#x1ED5;i, b&#x1ED5; sung C&#xE1;c &#x110;i&#x1EC1;u Ki&#x1EC7;n v&#xE0; &#x110;i&#x1EC1;u Kho&#x1EA3;n Tr&#xE1;i Phi&#x1EBF;u m&#xE3; BKPCB2124001</td>
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td></td>
+                                <td class="text-center">
+
+                                    <a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex('19062.0', '3', '')"></i></a>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-center">4</td>
+                                <td class="text-center">27/05/2024</td>
+                                <td>PAPC - C&#xF4;ng ty c&#x1ED5; ph&#x1EA7;n Pacific Partners</td>
+                                <td>PAPCH2124002</td>
+                                <td>C&#xF4;ng ty c&#x1ED5; ph&#x1EA7;n Pacific Partners CBTT b&#x1EA5;t th&#x1B0;&#x1EDD;ng - v&#x1EC1; vi&#x1EC7;c: Quy&#x1EBF;t &#x111;&#x1ECB;nh x&#x1EED; ph&#x1EA1;t quy &#x111;&#x1ECB;nh h&#xE0;nh ch&#xED;nh s&#x1ED1; 226/Q&#x110;-XPHC ng&#xE0;y 21/05/2024 c&#x1EE7;a Thanh tra &#x1EE6;y Ban Ch&#x1EE9;ng Kho&#xE1;n Nh&#xE0; N&#x1B0;&#x1EDB;c.</td>
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td></td>
+                                <td class="text-center">
+
+                                    <a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex('19047.0', '3', '')"></i></a>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-center">5</td>
+                                <td class="text-center">23/05/2024</td>
+                                <td>HQNC - CTCP D&#x1ECB;ch v&#x1EE5; Gi&#x1EA3;i tr&#xED; H&#x1B0;ng Th&#x1ECB;nh Quy Nh&#x1A1;n</td>
+                                <td>HQNCH2124005</td>
+                                <td>CTCP D&#x1ECB;ch v&#x1EE5; Gi&#x1EA3;i tr&#xED; H&#x1B0;ng Th&#x1ECB;nh Quy Nh&#x1A1;n CBTT b&#x1EA5;t th&#x1B0;&#x1EDD;ng - v&#x1EC1; vi&#x1EC7;c: Ch&#x1EAD;m thanh to&#xE1;n l&#xE3;i tr&#xE1;i phi&#x1EBF;u HQNCH2124005</td>
+
+                                <td>
+                                    Hi&#x1EC7;u l&#x1EF1;c
+                                </td>
+                                <td></td>
+                                <td class="text-center">
+
+                                    <a class="func-link" title="Tài liệu đính kèm"><i class="fas fa-paperclip" onclick="ViewFileIndex('18983.0', '3', '')"></i></a>
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="d-popup-container" id="dPopupInvestor"></div>
+
+        <script type="text/javascript">
+            $(function () {
+                $("#box-release a[data-changetabrelease]").on('click', function () {
+                    try {
+                        let activetab = $(this).attr("data-reftab");
+                        //
+                        $(this).closest('li').addClass('active').siblings().removeClass('active');
+                        $('#box-release #' + activetab).removeClass('hidden').siblings().addClass('hidden');
+                        $(window).trigger('resize');
+                    } catch (e) {
+                        console.log(e);
+                    }
+                });
+            });
+
+            function goDetailRelease() {
+                window.location.href = '/to-chuc-phat-hanh/thong-tin-phat-hanh';
+            }
+
+            function initReleaseTable() {
+                var options = {
+                    "paging": false,
+                    fnDrawCallback: function (settings) {
+                        //console.log(settings);
+                        if (window.tbFixScroll) {
+                            settings.nScrollBody.scrollLeft = window.tbFixScroll[settings.sTableId];
+                        }
+                        //
+                        $(settings.nScrollBody).on("scroll", function () {
+                            var _tbFixScroll = window.tbFixScroll || {};
+                            _tbFixScroll[settings.sTableId] = this.scrollLeft;
+                            window.tbFixScroll = _tbFixScroll;
+                        });
+                        //
+                        $(settings.nTableWrapper).off('mousewheel').on('mousewheel', function (event, delta) {
+                            event.preventDefault();
+                            var _tbFixScroll = window.tbFixScroll || {};
+                            settings.nScrollBody.scrollLeft -= (delta * 70);
+                            _tbFixScroll[settings.sTableId] = settings.nScrollBody.scrollLeft;
+                            window.tbFixScroll = _tbFixScroll;
+                        });
+                    }
+                };
+                var fixColumnOptions = {
+                    leftColumns: 4,
+                    rightColumns: 0
+                };
+
+                if ($('#tbReleaseResult').is(':visible')) {
+                    CreateFixedTable(document.getElementById("tbReleaseResult"), fixColumnOptions, options);
+                }
+                if ($('#tbRepurchaseResult').is(':visible')) {
+                    CreateFixedTable(document.getElementById("tbRepurchaseResult"), fixColumnOptions, options);
+                }
+                if ($('#tbSwapResult').is(':visible')) {
+                    CreateFixedTable(document.getElementById("tbSwapResult"), fixColumnOptions, options);
+                }
+                if ($('#tbRightResult').is(':visible')) {
+                    CreateFixedTable(document.getElementById("tbRightResult"), fixColumnOptions, options);
+                }
+                if ($('#tbConvertResult').is(':visible')) {
+                    CreateFixedTable(document.getElementById("tbConvertResult"), fixColumnOptions, options);
+                }
+                if ($('#tbPeriodicResult').is(':visible')) {
+                    CreateFixedTable(document.getElementById("tbPeriodicResult"), fixColumnOptions, options);
+                }
+                if ($('#tbExtraordinaryResult').is(':visible')) {
+                    CreateFixedTable(document.getElementById("tbExtraordinaryResult"), fixColumnOptions, options);
+                }
+
+                if ($('#tbBuyBackResult').is(':visible')) {
+                    CreateFixedTable(document.getElementById("tbBuyBackResult"), fixColumnOptions, options);
+                }
+                if ($('#tbBeforeConvertResult').is(':visible')) {
+                    CreateFixedTable(document.getElementById("tbBeforeConvertResult"), fixColumnOptions, options);
+                }
+
+            }
+
+            $(window).on('resize', function () {
+                initReleaseTable();
+            });
+            $(function () {
+                $(window).trigger('resize');
+
+            });
+            function ViewFileIndex(id, _type) {
+                $.ajax({
+                    type: "GET",
+                    data: { refId: id, tableType: _type },
+                    url: "/view-file",
+                    beforeSend: function () {
+                        SpinLoading(true);
+                    },
+
+                    success: function (data) {
+                        if (data != null) {
+                            if (data.redirectTo) {
+                                window.location.href = data.redirectTo;
+                            } else {
+                                $("#dPopupInvestor").html(data);
+                                ShowPopupDialog("dPopupInvestor", "Tài liệu đính kèm", { confirmClose: false });
+                            }
+                        }
+                    },
+                    error: function (data) {
+
+                        console.log(data.error);
+                    },
+                    complete: function () {
+                        SpinLoading(false);
+                    }
+                });
+            }
+
+            function showViewDescriptionFile(id, _type, $viewName, $soCV, $ngayCV, $lyDo) {
+                try {
+                    var _file = "";
+                    $.ajax({
+                        type: "GET",
+                        data: { refId: id, tableType: _type },
+                        url: "/get-file",
+                        beforeSend: function () {
+                            SpinLoading(true);
+                        },
+
+                        success: function (data) {
+                            if (data != null) {
+                                if (data.redirectTo) {
+                                    window.location.href = data.redirectTo;
+                                } else {
+                                    let htmlDisplay = '<div class="flex-row">' +
+                                        '<div class="flex-col-2"><i class="input-title">Số CV</i></div>' +
+                                        '<div class="flex-col-4">' +
+                                        '<b class="input-content">' + $soCV + '</b>' +
+                                        '</div>' +
+                                        '<div class="flex-col-2"><i class="input-title">Ngày CV</i></div>' +
+                                        '<div class="flex-col-4">' +
+                                        '<b class="input-content">' + $ngayCV + '</b>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<div class="flex-row">' +
+                                        '<div class="flex-col-2"><i class="input-title">Lý do</i></div>' +
+                                        '<div class="flex-col-10">' +
+                                        '<b class="input-content">' + $lyDo + '</b>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<div class="flex-row">' +
+                                        '<div class="flex-col-2"><i class="input-title">File đính kèm</i></div>' +
+                                        '<div class="flex-col-10">' +
+                                        '<b class="input-content">' + data.responseMessage + '</b>' +
+                                        '</div>' +
+                                        '</div>';
+                                    window.swal({
+                                        title: $viewName,
+                                        text: "",
+                                        html: htmlDisplay,
+                                        showCancelButton: false,
+                                        allowOutsideClick: false,
+                                        //allowEscapeKey: false,
+                                    }).then(function () {
+                                        //
+                                    }, function () {
+                                        //
+                                    });;
+                                }
+                            }
+                        },
+                        error: function (data) {
+                            console.log(data.error);
+                        },
+                        complete: function () {
+                            SpinLoading(false);
+                        }
+                    });
+
+
+
+
+                } catch (ex) {
+                    console.log(ex);
+                }
+            }
+        </script>
+
+    </div>
+
+    <div class="news-box pd-0">
+        <div id="box-bond">
+            <ul class="news-box-tab">
+                <li class="active"><a data-changetabrelease data-reftab="org-deposit" data-detail-href="/to-chuc-luu-ky">Danh sách TCLK</a></li>
+                <li><a data-changetabrelease data-reftab="bond" data-detail-href="/to-chuc-luu-ky">Danh sách trái phiếu lưu ký</a></li>
+                <li class="detail-link"><a onclick="goDetailBond()">Xem chi tiết</a></li>
+            </ul>
+
+            <div>
+                <div id="org-deposit">
+                    <div data-fx-table-container="true">
+                        <table id="tbOrgDeposit">
+                            <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th class="mw-300">Tên TCLK</th>
+                                <th class="mw-100">Tên viết tắt</th>
+                                <th class="mw-100">Mã TCLK</th>
+                                <th class="mw-150">Vốn điều lệ (VNĐ)</th>
+                                <th class="mw-100">Số điện thoại</th>
+                                <th class="mw-100">Fax</th>
+                                <th class="mw-300">Địa chỉ liên hệ</th>
+                                <th class="mw-100">Tình trạng</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-center mw-40">1</td>
+                                <td>Ng&#xE2;n h&#xE0;ng TMCP &#x110;&#x1EA7;u t&#x1B0; v&#xE0; Ph&#xE1;t tri&#x1EC3;n Vi&#x1EC7;t Nam</td>
+                                <td>BID</td>
+                                <td>201</td>
+                                <td class="text-right">40,220,180,400,000</td>
+                                <td>02422205544</td>
+                                <td>02422200399</td>
+                                <td>Th&#xE1;p BIDV, s&#x1ED1; 35 H&#xE0;ng V&#xF4;i, Ph&#x1B0;&#x1EDD;ng L&#xFD; Th&#xE1;i T&#x1ED5;, Qu&#x1EAD;n Ho&#xE0;n Ki&#x1EBF;m, H&#xE0; N&#x1ED9;i</td>
+                                <td>B&#xEC;nh th&#x1B0;&#x1EDD;ng</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center mw-40">2</td>
+                                <td>C&#xF4;ng ty TNHH Ch&#x1EE9;ng kho&#xE1;n JB Vi&#x1EC7;t Nam</td>
+                                <td>JBSV</td>
+                                <td>050</td>
+                                <td class="text-right">900,000,000,000</td>
+                                <td>02439429775</td>
+                                <td></td>
+                                <td>T&#x1EA7;ng 23, T&#xF2;a &#x110;&#xF4;ng, Lotte Center, 54 Li&#x1EC5;u Giai, Ph&#x1B0;&#x1EDD;ng C&#x1ED1;ng V&#x1ECB;, Qu&#x1EAD;n Ba &#x110;&#xEC;nh, H&#xE0; N&#x1ED9;i</td>
+                                <td>B&#xEC;nh th&#x1B0;&#x1EDD;ng</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center mw-40">3</td>
+                                <td>C&#xF4;ng ty C&#x1ED5; ph&#x1EA7;n Ch&#x1EE9;ng kho&#xE1;n Alpha</td>
+                                <td>APSC</td>
+                                <td>036</td>
+                                <td class="text-right">175,858,200,000</td>
+                                <td>02439334666</td>
+                                <td>02439334668</td>
+                                <td>T&#x1EA7;ng 7, t&#xF2;a nh&#xE0; Detech Tower II, s&#x1ED1; 107 Nguy&#x1EC5;n Phong S&#x1EAF;c, ph&#x1B0;&#x1EDD;ng D&#x1ECB;ch V&#x1ECD;ng H&#x1EAD;u, qu&#x1EAD;n C&#x1EA7;y Gi&#x1EA5;y, tp. H&#xE0; N&#x1ED9;i</td>
+                                <td>B&#xEC;nh th&#x1B0;&#x1EDD;ng</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center mw-40">4</td>
+                                <td>C&#xF4;ng ty C&#x1ED5; ph&#x1EA7;n Ch&#x1EE9;ng kho&#xE1;n Qu&#x1ED1;c Gia</td>
+                                <td>NSI</td>
+                                <td>028</td>
+                                <td class="text-right">170,000,000,000</td>
+                                <td>02439445474</td>
+                                <td>02439445475</td>
+                                <td>T&#x1EA7;ng 6, T&#xF2;a nh&#xE0; Prime Centre, s&#x1ED1; 53 Quang Trung, ph&#x1B0;&#x1EDD;ng Nguy&#x1EC5;n Du, qu&#x1EAD;n Hai B&#xE0; Tr&#x1B0;ng, H&#xE0; N&#x1ED9;i</td>
+                                <td>B&#xEC;nh th&#x1B0;&#x1EDD;ng</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center mw-40">5</td>
+                                <td>C&#xF4;ng ty C&#x1ED5; ph&#x1EA7;n Ch&#x1EE9;ng kho&#xE1;n H&#x1EA3;i Ph&#xF2;ng</td>
+                                <td>HPS</td>
+                                <td>012</td>
+                                <td class="text-right">291,810,960,000</td>
+                                <td></td>
+                                <td></td>
+                                <td>S&#x1ED1; 24 C&#xF9; Ch&#xED;nh Lan, ph&#x1B0;&#x1EDD;ng Minh Khai, qu&#x1EAD;n H&#x1ED3;ng B&#xE0;ng, th&#xE0;nh ph&#x1ED1; H&#x1EA3;i Ph&#xF2;ng</td>
+                                <td>B&#xEC;nh th&#x1B0;&#x1EDD;ng</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div id="bond" class="hidden">
+                    <div data-fx-table-container="true">
+                        <table id="OrgDepositRegister">
+                            <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th class="mw-300">Tên TCLK</th>
+                                <th class="mw-150">Mã TP</th>
+                                <th class="mw-150">Mã TCLK</th>
+                                <th class="mw-100">Tiền tệ</th>
+                                <th class="mw-100">Kỳ hạn</th>
+                                <th class="mw-100">Ngày phát hành</th>
+                                <th class="mw-100">Ngày đáo hạn</th>
+                                <th class="mw-150">Phương thức trả lãi</th>
+                                <th class="mw-100">Kỳ hạn trả lãi</th>
+                                <th class="mw-100">Lãi suất phát hành (%/năm)</th>
+                                <th class="mw-300">Đối tượng chào bán</th>
+                                <th class="mw-100">Trạng thái TP</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class=" text-center">1</td>
+                                <td>Ng&#xE2;n h&#xE0;ng TMCP &#x110;&#x1EA7;u t&#x1B0; v&#xE0; Ph&#xE1;t tri&#x1EC3;n Vi&#x1EC7;t Nam</td>
+                                <td>BIDL2439002</td>
+                                <td>201</td>
+                                <td>VN&#x110;</td>
+                                <td>15 N&#x103;m </td>
+                                <td class="text-center">21/05/2024</td>
+                                <td class="text-center">21/05/2039</td>
+                                <td>&#x110;&#x1ECB;nh k&#x1EF3; - Cu&#x1ED1;i k&#x1EF3;</td>
+                                <td>1 N&#x103;m</td>
+                                <td class="text-right">6.5</td>
+                                <td>T&#x1ED5; ch&#x1EE9;c chuy&#xEA;n nghi&#x1EC7;p</td>
+                                <td>B&#xEC;nh th&#x1B0;&#x1EDD;ng</td>
+
+                            </tr>
+                            <tr>
+                                <td class=" text-center">2</td>
+                                <td>T&#x1ED5;ng c&#xF4;ng ty L&#x1B0;u k&#xFD; v&#xE0; B&#xF9; tr&#x1EEB; Ch&#x1EE9;ng kho&#xE1;n Vi&#x1EC7;t Nam</td>
+                                <td>MBBL2431011</td>
+                                <td>800</td>
+                                <td>VN&#x110;</td>
+                                <td>7 N&#x103;m </td>
+                                <td class="text-center">27/05/2024</td>
+                                <td class="text-center">27/05/2031</td>
+                                <td>&#x110;&#x1ECB;nh k&#x1EF3; - Cu&#x1ED1;i k&#x1EF3;</td>
+                                <td>1 N&#x103;m</td>
+                                <td class="text-right">6.18</td>
+                                <td>T&#x1ED5; ch&#x1EE9;c chuy&#xEA;n nghi&#x1EC7;p</td>
+                                <td>B&#xEC;nh th&#x1B0;&#x1EDD;ng</td>
+
+                            </tr>
+                            <tr>
+                                <td class=" text-center">3</td>
+                                <td>T&#x1ED5;ng c&#xF4;ng ty L&#x1B0;u k&#xFD; v&#xE0; B&#xF9; tr&#x1EEB; Ch&#x1EE9;ng kho&#xE1;n Vi&#x1EC7;t Nam</td>
+                                <td>SBVCL2427001</td>
+                                <td>800</td>
+                                <td>VN&#x110;</td>
+                                <td>3 N&#x103;m </td>
+                                <td class="text-center">27/05/2024</td>
+                                <td class="text-center">27/05/2027</td>
+                                <td>&#x110;&#x1ECB;nh k&#x1EF3; - Cu&#x1ED1;i k&#x1EF3;</td>
+                                <td>1 N&#x103;m</td>
+                                <td class="text-right">5.4</td>
+                                <td>T&#x1ED5; ch&#x1EE9;c chuy&#xEA;n nghi&#x1EC7;p</td>
+                                <td>B&#xEC;nh th&#x1B0;&#x1EDD;ng</td>
+
+                            </tr>
+                            <tr>
+                                <td class=" text-center">4</td>
+                                <td>C&#xF4;ng ty c&#x1ED5; ph&#x1EA7;n Ch&#x1EE9;ng Kho&#xE1;n MB</td>
+                                <td>MBSH2427002</td>
+                                <td>004</td>
+                                <td>VN&#x110;</td>
+                                <td>36 Th&#xE1;ng </td>
+                                <td class="text-center">20/05/2024</td>
+                                <td class="text-center">20/05/2027</td>
+                                <td>&#x110;&#x1ECB;nh k&#x1EF3; - Cu&#x1ED1;i k&#x1EF3;</td>
+                                <td>3 Th&#xE1;ng</td>
+                                <td class="text-right">6.9</td>
+                                <td>C&#xE1; nh&#xE2;n chuy&#xEA;n nghi&#x1EC7;p; T&#x1ED5; ch&#x1EE9;c chuy&#xEA;n nghi&#x1EC7;p</td>
+                                <td>B&#xEC;nh th&#x1B0;&#x1EDD;ng</td>
+
+                            </tr>
+                            <tr>
+                                <td class=" text-center">5</td>
+                                <td>C&#xF4;ng ty c&#x1ED5; ph&#x1EA7;n Ch&#x1EE9;ng kho&#xE1;n HD</td>
+                                <td>VICH2426004</td>
+                                <td>046</td>
+                                <td>VN&#x110;</td>
+                                <td>24 Th&#xE1;ng </td>
+                                <td class="text-center">13/05/2024</td>
+                                <td class="text-center">13/05/2026</td>
+                                <td>&#x110;&#x1ECB;nh k&#x1EF3; - Cu&#x1ED1;i k&#x1EF3;</td>
+                                <td>3 Th&#xE1;ng</td>
+                                <td class="text-right">12.5</td>
+                                <td>C&#xE1; nh&#xE2;n chuy&#xEA;n nghi&#x1EC7;p; T&#x1ED5; ch&#x1EE9;c chuy&#xEA;n nghi&#x1EC7;p</td>
+                                <td>B&#xEC;nh th&#x1B0;&#x1EDD;ng</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(window).on('resize', function () {
+                let options = {
+                    "paging": false,
+                    fnDrawCallback: function (settings) {
+                        //console.log(settings);
+                        if (window.tbFixScroll) {
+                            settings.nScrollBody.scrollLeft = window.tbFixScroll[settings.sTableId];
+                        }
+                        //
+                        $(settings.nScrollBody).on("scroll", function () {
+                            var _tbFixScroll = window.tbFixScroll || {};
+                            _tbFixScroll[settings.sTableId] = this.scrollLeft;
+                            window.tbFixScroll = _tbFixScroll;
+                        });
+                        //
+                        $(settings.nTableWrapper).off('mousewheel').on('mousewheel', function (event, delta) {
+                            event.preventDefault();
+                            var _tbFixScroll = window.tbFixScroll || {};
+                            settings.nScrollBody.scrollLeft -= (delta * 70);
+                            _tbFixScroll[settings.sTableId] = settings.nScrollBody.scrollLeft;
+                            window.tbFixScroll = _tbFixScroll;
+                        });
+                    }
+                };
+                let fixColumnOptions = {
+                    leftColumns: 3,
+                    rightColumns: 0
+                };
+
+                if ($('#OrgDepositRegister').is(':visible')) {
+                    CreateFixedTable('#OrgDepositRegister', fixColumnOptions, options);
+                }
+                if ($('#tbOrgDeposit').is(':visible')) {
+                    CreateFixedTable('#tbOrgDeposit', fixColumnOptions, options);
+                }
+            });
+
+            $(function () {
+                $("#box-bond a[data-changetabrelease]").on('click', function () {
+                    try {
+                        let activetab = $(this).attr("data-reftab");
+                        //
+                        $(this).closest('li').addClass('active').siblings().removeClass('active');
+                        $('#box-bond #' + activetab).removeClass('hidden').siblings().addClass('hidden');
+                        $(window).trigger('resize');
+                    } catch (e) {
+                        console.log(e);
+                    }
+                });
+                ChangeIconSortTable();
+                $(window).trigger('resize');
+
+            });
+
+            function goDetailBond() {
+                let activeHref = $('#box-bond li.active a').attr("data-detail-href");
+                window.location.href = activeHref;
+
+            }
+        </script>
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+</div>
+<div class="d-popup-container" id="dPopupChangePass"></div>
+<div class="d-popup-container" id="dPopupArticle"></div>
+<div class="d-popup-container" id="dPopupFullText"></div>
+
+<footer class="footer">
+    <div class="line-foot">
+        <div class="line-green"></div>
+        <div class="line-red"></div>
+    </div>
+    <div class="container-footer">
+        <div class="foot-head">
+            <div class="logo-foot">
+                <a href="#">
+                    <img src="/images/logo-footer.png" alt="ảnh" />
+                </a>
+            </div>
+            <div class="menu-foot">
+                <ul>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li><a href="/to-chuc-phat-hanh/tin-cong-bo">Tổ chức phát hành</a></li>
+                    <li><a href="/to-chuc-luu-ky">Tổ chức lưu ký</a></li>
+                    <li><a href="/cbtt-dang-ky-giao-dich">Thông tin giao dịch</a></li>
+                    <li><a href="/danh-sach-tai-lieu">HDSD</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="foot-bot clearfix">
+            <div class="foot-bot-left">
+                <div>Liên hệ với Sở Giao dịch Chứng khoán Hà Nội khi phát hành thông tin từ Website này.</div>
+                <div>Giấy phép số 151/GP-BC ngày 29/08/2005 của Cục Báo chí, Bộ Văn hóa TT về cung cấp thông tin lên mạng Internet.</div>
+            </div>
+            <div class="foot-bot-right">
+                © 2016 Bản quyển thuộc "Sở Giao dịch Chứng khoán Hà Nội".
+            </div>
+        </div>
+
+
+    </div>
+</footer>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Lưu ý về TPDN riêng lẻ </h5>
+            </div>
+            <div class="modal-body" style="line-height: 1.5; font-family: Times New Roman; font-size: 14px;">
+
+                <p style="font-weight: 300">1.	Đối với doanh nghiệp phát hành trái phiếu:</p>
+
+
+
+                <ul style="padding-left: 30px">
+                    <li style="list-style-type: '-  '">Doanh nghiệp phát hành trái phiếu theo nguyên tắc tự vay, tự trả, tự chịu trách nhiệm về hiệu quả sử dụng vốn và đảm bảo khả năng trả nợ <span style="font-style: italic"> (trích dẫn quy định tại khoản 1 Điều 5 Nghị định 153/2020/NĐ-CP) </span>.</li>
+                    <li style="list-style-type: '-  '"> Doanh nghiệp phát hành phải chịu trách nhiệm trước pháp luật về nội dung và tính chính xác, trung thực của thông tin công bố <span style="font-style: italic">(trích dẫn quy định tại khoản 1 Điều 18 Nghị định 153/2020/NĐ-CP)</span>.</li>
+
+                </ul>
+
+                <div style="margin-top: 10px; font-weight: bold; font-style: italic;">
+                    <input type="checkbox" id="checkConfirm1" name="checkConfirm" value="1"> <label>Tôi hiểu và đồng ý với nội dung trên</label>
+                </div>
+
+
+                <p>2.	Trách nhiệm của nhà đầu tư mua trái phiếu:</p>
+
+                <ul style="padding-left: 30px">
+                    <li style="list-style-type: '-  '">Tiếp cận đầy đủ nội dung công bố thông tin của doanh nghiệp phát hành; hiểu rõ điều kiện, điều khoản trái phiếu và các cam kết khác của doanh nghiệp phát hành trước khi quyết định mua và giao dịch trái phiếu.</li>
+                    <li style="list-style-type: '-  '">Hiểu rõ về các rủi ro phát sinh trong việc đầu tư, giao dịch trái phiếu; hiểu rõ và đảm bảo tuân thủ quy định về đối tượng nhà đầu tư, giao dịch trái phiếu doanh nghiệp riêng lẻ theo quy định tại Nghị định này và quy định của pháp luật liên quan.</li>
+                    <li style="list-style-type: '-  '">
+                        Tự đánh giá, tự chịu trách nhiệm về quyết định đầu tư của mình và tự chịu các rủi ro phát sinh trong việc đầu tư và giao dịch trái phiếu. Nhà nước không đảm bảo việc doanh nghiệp phát hành trái phiếu thanh toán đầy đủ, đúng hạn lãi, gốc trái phiếu khi đến hạn và các quyền khác cho nhà đầu tư mua trái phiếu.
+                        <p style="font-style:italic">(trích dẫn quy định tại khoản 6 Điều 1 Nghị định 65/2022/NĐ-CP)</p>
+                    </li>
+
+                </ul>
+
+                <div style="margin-top: 10px; font-weight: bold; font-style: italic;">
+                    <input type="checkbox" id="checkConfirm2" name="checkConfirm" value="1"> <label>Tôi hiểu và đồng ý với nội dung trên</label>
+                </div>
+
+
+
+                <ul style="padding-left: 17px">
+                    <li style="list-style-type: '3.  '">Việc đăng ký giao dịch trái phiếu tại Sở giao dịch chứng khoán theo quy định tại Điều này <span style="font-style:italic">(Điều 16 <span style="font-weight:bold">Nghị định 153/2020/NĐ-CP</span> và khoản 13 Điều 1 Nghị định 65/2022/NĐ-CP)</span> không hàm ý Sở giao dịch chứng khoán xác nhận và đảm bảo cho tính hợp pháp của đợt chào bán trái phiếu của doanh nghiệp và việc thanh toán đầy đủ lãi, gốc của trái phiếu <span style="font-style:italic">(trích dẫn quy định tại khoản 13 Điều 1 Nghị định 65/2022/NĐ-CP)</span>.</li>
+
+
+                </ul>
+
+                <div style="margin-top: 10px; font-weight: bold; font-style: italic;">
+                    <input type="checkbox" id="checkConfirm3" name="checkConfirm" value="1"> <label>Tôi hiểu và đồng ý với nội dung trên</label>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="approvePopup" class="btn disabled" disabled onclick="goPage()">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .disabled:hover {
+        background-color: #548917;
+        color: #fff;
+        transition: all .3s;
+        opacity: .65;
+    }
+</style>
+
+
+
+<script>
+
+
+
+    $(function () {
+        $('#header-menu-toggle').on('click', function () {
+            $('.header-menu').toggleClass('expanded');
+        });
+        $('#header-user-toggle1').on('click', function () {
+            $('.header-user-info').toggleClass('hidden');
+        });
+    });
+
+
+
+
+</script>
+
+<script>
+    // Get the current number from localStorage or initialize to 0
+    // let currentNumber1 = (localStorage.getItem("popupTimestamp")) || 0;
+    //var is_root = location.pathname == "/";
+    //if (!is_root) {
+    let currentNumber = (sessionStorage.getItem("popupTimestamp2")) || 0;
+    if (!currentNumber) {
+
+        $('#exampleModalCenter').modal('show');
+    } else {
+        const currentTime = new Date().getTime();
+        const popupTime = parseInt(currentNumber, 10);
+        if (currentTime - popupTime > (1000 * 60 * 60 * 8 )) {
+
+            /* $('#exampleModalCenter').modal('show');*/
+
+        }
+    }
+    //}
+    //else{
+    //        $('#exampleModalCenter').modal('show');
+    //}
+    $('#checkConfirm1,#checkConfirm3,#checkConfirm2').change(function () {
+
+
+        var checkBox1 = document.getElementById("checkConfirm1");
+        var checkBox2 = document.getElementById("checkConfirm2");
+        var checkBox3 = document.getElementById("checkConfirm3");
+
+
+
+        if (checkBox1.checked == true && checkBox2.checked == true && checkBox3.checked == true) {
+            $("#approvePopup").prop("disabled", false);
+            $("#approvePopup").removeClass("disabled");
+        } else {
+            $("#approvePopup").prop("disabled", true);
+            $("#approvePopup").addClass("disabled");
+        }
+
+    });
+
+    function goPage() {
+        const currentTime = new Date().getTime();
+        sessionStorage.setItem("popupTimestamp2", currentTime.toString());
+        $('#exampleModalCenter').modal('hide');
+    }
+</script>
+
+
+</body>
+</html>
