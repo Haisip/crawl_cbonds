@@ -28,7 +28,7 @@ func main() {
 	outputPath := os.Getenv("OUTPUT_FILE")
 	log.Printf("outputPath: %v", outputPath)
 
-	var dataSource source_cbondshnxvn.DataSourceCbonds
+	var dataSource source_cbondshnxvn.DataSourceCbonds2
 	job := func() {
 		freshData, err := dataSource.DownloadHTML()
 		if err != nil {
@@ -40,9 +40,9 @@ func main() {
 			log.Printf("error ParseXsktcomvn: %v", err)
 			return
 		}
-		log.Printf("rows: %+v", rows)
+		log.Printf("rows: %+v", len(rows))
 
-		err = source_cbondshnxvn.WriteToCsv(rows, outputPath)
+		err = source_cbondshnxvn.WriteToExcel(rows, outputPath)
 		if err != nil {
 			log.Printf("error WriteToCsv: %v", err)
 		} else {

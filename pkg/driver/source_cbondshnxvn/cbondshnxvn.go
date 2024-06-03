@@ -35,7 +35,7 @@ type DataSourceCbonds2 struct{}
 
 func (s DataSourceCbonds2) DownloadHTML() ([]byte, error) {
 	page := strconv.Itoa(1)
-	pageSize := strconv.Itoa(100)
+	pageSize := strconv.Itoa(100000)
 	body := strings.NewReader(`keysSearch%5B%5D=&keysSearch%5B%5D=&keysSearch%5B%5D=&keysSearch%5B%5D=&keysSearch%5B%5D=&keysSearch%5B%5D=&keysSearch%5B%5D=&currentPages%5B%5D=1&currentPages%5B%5D=1&currentPages%5B%5D=` + page + `&currentPages%5B%5D=1&numberRecord%5B%5D=10&numberRecord%5B%5D=10&numberRecord%5B%5D=` + pageSize + `&numberRecord%5B%5D=10`)
 	r, err := http.NewRequest("POST", "https://cbonds.hnx.vn/to-chuc-phat-hanh/tin-cong-bo-x", body)
 	r.Header.Set("CP-TOKEN", `CfDJ8PdG7etAbaxFiQmMzHBRJ_2FL4jRiYDX7DsmJXxowB9CbsbPkYbgxllYY32PNxHCYU3bwBt6rh8odSEfgHzqzj838_7TyTD3W7tTgQttraCAO1TWOjBiVfV5fbots0sV_oAn0lnfe1Zu93pzXYtQMTM`)
